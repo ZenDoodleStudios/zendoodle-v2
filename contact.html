@@ -9,7 +9,12 @@
 </head>
 <body>
 
-    <div class="blob-container"><div class="blob b1"></div></div>
+    <div class="blob-container">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="floating-icon i1">☁️</div>
+        <div class="floating-icon i3">🖍️</div>
+    </div>
 
     <nav>
         <a href="index.html"><img src="assets/logo.jpg" alt="ZenDoodle Logo" class="brand-logo"></a>
@@ -28,10 +33,16 @@
             <h2>Let’s Create Together</h2>
             <p>Ready to create? Chat with us directly or fill out the form below to get a quote.</p>
             
+            <div style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px dashed var(--zen-teal);">
+                <p style="margin-bottom: 5px;"><strong>📍 Kingston, Jamaica</strong></p>
+                <p style="font-size: 0.95rem;">At the moment, we are an online business. However, we provide services and delivery options for anyone on our little island.</p>
+                <p style="font-weight: bold; margin-top: 10px;">📞 1 (876) 812 - 4295</p>
+            </div>
+
             <div style="margin-bottom: 30px;">
-                <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios!%20I%20was%20browsing%20your%20website%20and%20need%20some%20more%20information." target="_blank" rel="noopener" class="btn btn-primary">WhatsApp Us</a>
+                <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios!%20I%20was%20browsing%20your%20website%20and%20need%20some%20more%20information." target="_blank" class="btn btn-primary">WhatsApp Us</a>
                 
-                <a href="mailto:zendoodlestudios@outlook.com" class="btn btn-secondary">Email Us</a>
+                <a href="https://instagram.com/zendoodlestudios" target="_blank" class="btn btn-secondary">Follow on Instagram</a>
             </div>
 
             <form name="zendoodle-inquiry" method="POST" data-netlify="true" style="text-align: left; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
@@ -58,7 +69,19 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
+        <div class="footer-icons">
+            <a href="https://wa.me/18768124295" target="_blank" class="footer-icon-link">
+                <span>💬</span> WhatsApp
+            </a>
+            <a href="https://instagram.com/zendoodlestudios" target="_blank" class="footer-icon-link">
+                <span>📸</span> Instagram
+            </a>
+            <a href="mailto:zendoodlestudios@outlook.com" class="footer-icon-link">
+                <span>✉️</span> Email
+            </a>
+        </div>
+        <span class="footer-phone">📞 1 (876) 812 - 4295</span>
+        <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
     </footer>
 
 </body>
