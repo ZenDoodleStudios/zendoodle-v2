@@ -59,10 +59,12 @@
             
             <h1>Create your ZenDoodle Book</h1>
             <p>Bring your imagination to life with a one-of-a-kind colouring book made just for you!</p>
+            <p>Whether it’s for a birthday, school, event, or personal keepsake — we’ll turn your photos, art, or theme ideas into a beautiful custom book.</p>
+            <p><strong>✨ Please fill out the form below to get started.</strong></p>
             
             <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--zen-teal); font-size: 0.9rem;">
-                <strong>Assistance:</strong> <a href="https://wa.me/18768124295" target="_blank">(876) 812 - 4295</a><br>
-                <em>Sizes: Custom Books (8.5" x 11") | Mini Books (4.25" x 5.5")</em>
+                If you don't see an option that works for you, if you need customised packages, or for general assistance, contact us at <a href="https://wa.me/18768124295" target="_blank" style="font-weight:bold; color:var(--zen-teal);">(876) 812 - 4295</a>.<br>
+                <em style="display:block; margin-top:5px; color:#666;">Sizes: Custom Books (8.5" x 11") | Mini Books (4.25" x 5.5")</em>
             </div>
 
             <form id="masterForm" name="zendoodle_full_order" method="POST" action="thank-you.html" data-netlify="true" enctype="multipart/form-data" style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left;">
@@ -79,17 +81,17 @@
                 <div class="step-container active" id="page1">
                     <h3>Contact Details</h3>
                     <label>Full Name *</label>
-                    <input type="text" name="full_name" required>
+                    <input type="text" id="contact_name" name="full_name" required>
                     
                     <label>Email Address *</label>
-                    <input type="email" name="email" required>
+                    <input type="email" id="contact_email" name="email" required>
                     
                     <label>Phone Number *</label>
-                    <input type="tel" name="phone" placeholder="(876) ..." required>
+                    <input type="tel" id="contact_phone" name="phone" placeholder="(876) ..." required>
 
                     <label style="margin-top: 20px;">What type of book would you like to create? *</label>
                     <div class="radio-group">
-                        <label class="radio-option"><input type="radio" name="book_type" value="custom_child_color" required> Custom Colouring Book - Child</label>
+                        <label class="radio-option"><input type="radio" name="book_type" value="custom_child_color"> Custom Colouring Book - Child</label>
                         <label class="radio-option"><input type="radio" name="book_type" value="custom_adult_color"> Custom Colouring Book - Adult</label>
                         <label class="radio-option"><input type="radio" name="book_type" value="custom_child_activity"> Custom Activity Book - Child</label>
                         <label class="radio-option"><input type="radio" name="book_type" value="bulk_child_color"> Bulk Mini Colouring Book - Child</label>
@@ -155,3 +157,234 @@
 
                     <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
                     <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
+                </div>
+
+                <div class="step-container" id="page3">
+                    <h3>Custom Colouring Book (Adult)</h3>
+                    
+                    <label>Select your package *</label>
+                    <select id="p3_package" class="calc-trigger">
+                        <option value="motivational">Motivational / Affirmation / Christian - $3500</option>
+                        <option value="gift">Gift Package (20pg + Pencils + Card + Box) - $8500</option>
+                    </select>
+
+                    <label>Theme / Style</label>
+                    <select id="p3_style" class="calc-trigger">
+                        <option value="Floral">Floral</option>
+                        <option value="Mandala">Mandala (+$150)</option>
+                        <option value="Anime">Anime (+$150)</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Upload 2 Photos</label>
+                    <input type="file" name="p3_photos" multiple accept=".jpg, .png">
+
+                    <label>Recipient Info</label>
+                    <input type="text" id="p3_recipient_info" placeholder="Name, Age, Gender">
+
+                    <label>Occasion</label>
+                    <select id="p3_occasion">
+                        <option>Birthday</option>
+                        <option>Mothers’ Day</option>
+                        <option>Fathers’ Day</option>
+                        <option>Just Because</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select id="p3_turnaround" class="calc-trigger">
+                        <option value="regular">Regular Service - 7 days</option>
+                        <option value="rush">Rush Order - 3 days (+$1500)</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
+                </div>
+
+                <div class="step-container" id="page4">
+                    <h3>Custom Activity Book (Child)</h3>
+                    <p>Includes 20 personalised, age-appropriate activity pages.</p>
+
+                    <label>Recipient Info</label>
+                    <input type="text" id="p4_recipient_info" placeholder="Name, Age, Gender">
+
+                    <label>Upload 2 Photos</label>
+                    <input type="file" name="p4_photos" multiple accept=".jpg, .png">
+
+                    <label>Character Theme (Optional)</label>
+                    <select id="p4_theme" class="calc-trigger">
+                        <option value="none">No Character</option>
+                        <option value="Cars & Trucks">Cars & Trucks</option>
+                        <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
+                        <option value="Moana">Moana (+$150)</option>
+                        <option value="Spiderman">Spiderman (+$150)</option>
+                        <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Add Gift Packaging? (+$1500)</label>
+                    <select id="p4_gift" class="calc-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select id="p4_turnaround" class="calc-trigger">
+                        <option value="regular">Regular Service - 7 days</option>
+                        <option value="rush">Rush Order - 3 days (+$1500)</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
+                </div>
+
+                <div class="step-container" id="page5">
+                    <h3>Bulk Mini Books (Child)</h3>
+                    
+                    <label>Select Package *</label>
+                    <select id="p5_package" class="calc-trigger">
+                        <option value="generic_color">Generic Colouring Book</option>
+                        <option value="generic_activity">Generic Activity Book</option>
+                        <option value="custom_color">Customised Colouring Book</option>
+                        <option value="custom_activity">Customised Activity Book</option>
+                    </select>
+
+                    <label>Quantity *</label>
+                    <select id="p5_qty" class="calc-trigger">
+                        <option value="8">8</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                    </select>
+
+                    <label>Recipient Info / Details</label>
+                    <input type="text" id="p5_recipient_info" placeholder="Name, Age, Gender (if custom)">
+                    
+                    <label>Upload Photos (If Custom)</label>
+                    <input type="file" name="p5_photos" multiple accept=".jpg, .png">
+
+                    <label>Size</label>
+                    <select id="p5_size" class="calc-trigger">
+                        <option value="standard">Standard - 4.25” x 5.5”</option>
+                        <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
+                    </select>
+
+                    <label>Add Crayons/Pencils?</label>
+                    <select id="p5_addons" class="calc-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes (Extra cost)</option>
+                    </select>
+
+                    <label>Theme *</label>
+                    <select id="p5_theme" class="calc-trigger">
+                        <option value="Generic">Generic</option>
+                        <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
+                        <option value="Moana">Moana (+$150)</option>
+                        <option value="Spiderman">Spiderman (+$150)</option>
+                        <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Occasion</label>
+                    <select id="p5_occasion">
+                        <option>Birthday Party</option>
+                        <option>Graduation Party</option>
+                        <option>Class Party</option>
+                        <option>Easter Egg Hunt</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select id="p5_turnaround" class="calc-trigger">
+                        <option value="regular">Regular Service - 7 days</option>
+                        <option value="rush">Rush Order - 3 days (+$1500)</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
+                </div>
+
+                <div class="step-container" id="page6">
+                    <h3>Bulk Mini Books (Adult)</h3>
+                    
+                    <label>Select Package *</label>
+                    <select id="p6_package" class="calc-trigger">
+                        <option value="stress">Stress Relief</option>
+                        <option value="mandala">Mandala</option>
+                        <option value="inspirational">Inspirational Messages</option>
+                        <option value="spiritual">Spiritual</option>
+                    </select>
+
+                    <label>Quantity *</label>
+                    <select id="p6_qty" class="calc-trigger">
+                        <option value="8">8</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                    </select>
+
+                    <label>Size</label>
+                    <select id="p6_size" class="calc-trigger">
+                        <option value="standard">Standard - 4.25” x 5.5”</option>
+                        <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
+                    </select>
+
+                    <label>Add Crayons/Pencils?</label>
+                    <select id="p6_addons" class="calc-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes (Extra cost)</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select id="p6_turnaround" class="calc-trigger">
+                        <option value="regular">Regular Service - 7 days</option>
+                        <option value="rush">Rush Order - 3 days (+$1500)</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
+                </div>
+
+                <div class="step-container" id="review_page">
+                    <h3>Order Summary</h3>
+                    <p>Based on your selections:</p>
+                    
+                    <div class="price-box">
+                        Estimated Total:
+                        <span id="finalPrice" class="price-display">$0 JMD</span>
+                    </div>
+                    
+                    <label>Additional Notes</label>
+                    <textarea name="final_notes" rows="4"></textarea>
+
+                    <button type="button" class="btn btn-secondary" onclick="goBack('dynamic')">Edit Order</button>
+                    <button type="submit" class="btn btn-primary">Confirm & Send</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            let lastPage = 1;
+            let finalPriceJMD = 0;
+
+            // --- NAVIGATION ---
+            window.handleRouter = function() {
+                // 1. Validation for Page 1
+                const name = document.getElementById('contact_name').value;
+                const email = document.getElementById('contact_email').value;
+                const phone = document.getElementById('contact_phone').value;
+                const type = document.querySelector('input[name="book_type"]:checked');
+
+                if (!name || !email || !phone) {
+                    alert('Please fill in all contact details (Name, Email, Phone) before proceeding.');
+                    return;
+                }
+                if
