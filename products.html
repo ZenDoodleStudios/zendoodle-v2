@@ -7,11 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Extra styling for the detailed lists in this card */
-        .detail-list { text-align: left; margin: 15px 0; font-size: 0.95rem; }
-        .detail-list h4 { color: var(--zen-teal); margin-bottom: 5px; font-size: 1rem; }
-        .detail-list ul { padding-left: 20px; margin-bottom: 15px; }
-        .detail-list li { margin-bottom: 5px; color: var(--zen-dark); }
+        /* Styling for the detailed lists inside cards */
+        .detail-box { text-align: left; margin-top: 15px; font-size: 0.95rem; }
+        .detail-box h5 { color: var(--zen-teal); margin-top: 15px; margin-bottom: 5px; font-size: 1rem; font-family: 'Fredoka', sans-serif; }
+        .detail-box ul { padding-left: 20px; margin-bottom: 10px; }
+        .detail-box li { margin-bottom: 5px; color: var(--zen-dark); }
+        .sub-text { font-size: 0.9rem; color: #666; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -34,8 +35,12 @@
         </div>
     </nav>
 
+    <section class="section" style="padding-bottom: 0; text-align: center;">
+        <h1>Products</h1>
+        <p>Explore our custom and ready-to-buy offerings.</p>
+    </section>
+
     <section class="section">
-        <h2>What We Create</h2>
         <div class="product-grid">
             
             <div class="product-card" style="grid-row: span 2;">
@@ -43,17 +48,17 @@
                     <span class="tag">Best Seller</span>
                     <h3>Custom Colouring & Activity Books</h3>
                     
-                    <p><strong>Perfect for:</strong> Birthdays, school parties, graduations, milestones, special events, unique gifts, Christmas, and personal relaxation.</p>
+                    <p style="font-size: 0.95rem;"><strong>Perfect for:</strong> Birthdays, school parties, graduations, milestones, special events, unique gifts, Christmas, and personal relaxation.</p>
                     
-                    <div class="detail-list">
-                        <h4>What you can personalize:</h4>
+                    <div class="detail-box">
+                        <h5>What you can personalize:</h5>
                         <ul>
-                            <li>Create a custom experience featuring the loved one (generated using their reference photo!)</li>
+                            <li>Create a custom experience featuring the loved one of the moment (generated using their reference photo!)</li>
                             <li>Choose a theme or character to match their favourite thing</li>
                             <li>Age range and difficulty (simple for kids, detailed for teens/adults)</li>
                         </ul>
 
-                        <h4>Popular formats:</h4>
+                        <h5>Popular formats:</h5>
                         <ul>
                             <li>10-page custom book</li>
                             <li>20-page custom book</li>
@@ -61,22 +66,78 @@
                         </ul>
                     </div>
                 </div>
-                <a href="contact.html" class="btn btn-primary">Order Custom Books</a>
+                <a href="contact.html" class="btn btn-primary" style="width: 100%;">Order Custom Colouring Book</a>
             </div>
 
             <div class="product-card">
                 <div>
                     <span class="tag">Ready-to-Buy</span>
-                    <h3>Amazon Storybooks</h3>
-                    <p>Relaxation, mindfulness, joy, and family time. Available globally for quick shipping.</p>
+                    <h3>Colouring & Storybooks on Amazon</h3>
+                    <p><strong>Designed for:</strong> Relaxation, mindfulness, joy, and quality family time.</p>
+                    <p class="sub-text"><strong>Best for:</strong> Gifts, personal collections, travel activities, calm evenings.</p>
+                    <p class="sub-text">Available online or order locally.</p>
                 </div>
-                <a href="https://www.amazon.com/author/zendoodlestudios" target="_blank" class="btn btn-secondary">Shop on Amazon &rarr;</a>
+                <div style="margin-top: 20px;">
+                    <a href="https://www.amazon.com/author/zendoodlestudios" target="_blank" class="btn btn-secondary" style="width: 100%; margin: 5px 0;">View Amazon Titles</a>
+                    <a href="https://wa.me/18768124295?text=Hi!%20I%20need%20a%20book%20recommendation." target="_blank" class="btn btn-secondary" style="width: 100%; margin: 5px 0; font-size: 0.9rem;">Contact for Recommendations</a>
+                </div>
             </div>
 
-            <div class="product-card">
+            <div class="product-card" style="grid-row: span 2;">
                 <div>
                     <span class="tag">Parties & Events</span>
-                    <h3>Bulk Mini Packages</h3>
-                    <p>Perfect goodie bag stuffers. Available in 8, 12, 24, or 48 packs.</p>
+                    <h3>Bulk Mini Book Packages (All Ages)</h3>
+                    <p>Ready-to-buy or personalised mini books made for groups of any age. Perfect for adding something thoughtful to your event—simple, fun, and easy to share.</p>
+                    
+                    <div class="detail-box">
+                        <h5>Great for:</h5>
+                        <ul>
+                            <li>Goodie bag stuffers</li>
+                            <li>Birthdays + school parties</li>
+                            <li>Event memorabilia & Team-building</li>
+                            <li>Group activities (kids, teens, or adults)</li>
+                        </ul>
+
+                        <h5>Choose your style:</h5>
+                        <ul>
+                            <li><strong>Ready-to-Buy:</strong> Pick a theme from our available options</li>
+                            <li><strong>Personalised:</strong> Add names, event title/date, school/team name, or a custom theme</li>
+                        </ul>
+
+                        <p style="margin-top: 15px;"><strong>Available as:</strong> 8, 12, 24, or 48 packs</p>
+                    </div>
                 </div>
-                <a href="contact.
+                <a href="contact.html" class="btn btn-primary" style="width: 100%;">Order Now</a>
+            </div>
+
+            <div class="product-card" style="background-color: #f9fdfd;">
+                <div>
+                    <span class="tag" style="background-color: #e0e0e0; color: #555;">Coming Soon</span>
+                    <h3 style="color: #888;">Custom Canvas Prints</h3>
+                    <p>We’re preparing our canvas print collection—custom wall art created from your favourite drawings, using you or your loved one as inspiration for blank, ready-to-paint designs or pre-coloured art pieces and designed in the ZenDoodle style.</p>
+                    <p class="sub-text" style="margin-top: 15px;">Want to be first in line? Send “CANVAS” via WhatsApp.</p>
+                </div>
+                <a href="https://wa.me/18768124295?text=CANVAS" target="_blank" class="btn btn-secondary" style="width: 100%;">Join the Canvas Waitlist</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-icons">
+            <a href="https://wa.me/18768124295" target="_blank" class="footer-icon-link">
+                <span>💬</span> WhatsApp
+            </a>
+            <a href="https://instagram.com/zendoodlestudios" target="_blank" class="footer-icon-link">
+                <span>📸</span> Instagram
+            </a>
+            <a href="mailto:zendoodlestudios@outlook.com" class="footer-icon-link">
+                <span>✉️</span> Email
+            </a>
+        </div>
+        <span class="footer-phone">📞 1 (876) 812 - 4295</span>
+        <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
+    </footer>
+
+</body>
+</html>
