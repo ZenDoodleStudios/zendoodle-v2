@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Your ZenDoodle Book</title>
+    <title>Create Your ZenDoodle Book | ZenDoodle Studios</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* --- MULTI-STEP FORM STYLES --- */
+        /* --- SPECIFIC FORM STYLES --- */
+        .form-wrapper {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         .step-container { display: none; animation: fadeIn 0.4s ease; }
         .step-container.active { display: block; }
         
@@ -19,34 +29,51 @@
             margin-bottom: 30px; background: #eee; height: 10px; border-radius: 5px; overflow: hidden;
         }
         .progress-bar {
-            height: 100%; background: var(--zen-teal); width: 10%; transition: width 0.4s ease;
+            height: 100%; background: var(--zen-teal); width: 15%; transition: width 0.4s ease;
         }
         .step-indicator {
             text-align: right; font-size: 0.9rem; color: var(--zen-teal); font-weight: bold; margin-bottom: 5px;
         }
 
         /* Form Elements */
-        label { font-weight: 600; margin-top: 15px; display: block; color: var(--zen-dark); }
-        
-        select, input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea {
+        label { font-weight: 600; margin-top: 20px; display: block; color: var(--zen-dark); }
+        .sub-label { font-size: 0.85rem; color: #666; margin-top: -2px; margin-bottom: 5px; font-style: italic; }
+
+        select, input[type="text"], input[type="email"], input[type="tel"], textarea {
             width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; 
             margin-top: 5px; font-family: 'Quicksand', sans-serif; font-size: 1rem;
+            box-sizing: border-box;
         }
+        input:focus, select:focus, textarea:focus { border-color: var(--zen-teal); outline: none; }
 
+        /* File Upload */
+        input[type="file"] { border: 1px dashed var(--zen-teal); padding: 10px; background: #f0fafa; }
+
+        /* Radio Group (Page 1) */
         .radio-group label {
-            display: block; background: #f9fdfd; border: 1px solid #ddd; 
+            display: flex; align-items: center; background: #f9fdfd; border: 1px solid #ddd; 
             padding: 15px; margin-bottom: 10px; border-radius: 10px; 
-            cursor: pointer; transition: 0.2s;
+            cursor: pointer; transition: 0.2s; margin-top: 8px;
         }
         .radio-group label:hover { border-color: var(--zen-teal); background: white; }
-        .radio-group input { margin-right: 10px; width: auto; }
+        .radio-group input { margin-right: 15px; width: auto; transform: scale(1.2); }
+
+        /* Conditional "Other" inputs */
+        .conditional-input { display: none; margin-top: 10px; border-left: 3px solid var(--zen-teal); }
 
         /* Price Box */
         .price-box {
             background: #eef9f8; border: 2px solid var(--zen-teal); color: var(--zen-dark);
-            padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px;
+            padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; margin-bottom: 20px;
         }
         .price-display { font-size: 2rem; color: var(--zen-teal); font-family: 'Fredoka', sans-serif; display: block; font-weight: bold; }
+
+        /* Buttons */
+        .btn-group { display: flex; justify-content: space-between; margin-top: 30px; gap: 10px; }
+        .btn-back { background: #eee; color: #555; }
+        .btn-back:hover { background: #ddd; color: #333; }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -54,6 +81,7 @@
     <div class="blob-container">
         <div class="blob b2"></div>
         <div class="floating-icon i2">🎨</div>
+        <div class="floating-icon i4">✨</div>
         <img src="assets/mascot.jpg" alt="" class="mascot-bg">
     </div>
 
@@ -61,112 +89,7 @@
         <a href="index.html"><img src="assets/logo.jpg" alt="ZenDoodle Logo" class="brand-logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="contact.html">Contact</a>
-        </div>
-    </nav>
-
-    <section class="section">
-        <div class="contact-wrapper" style="max-width: 800px;">
-            
-            <h1>Create your ZenDoodle Book</h1>
-            <p>Bring your imagination to life with a one-of-a-kind colouring book made just for you!</p>
-            <p>Whether it’s for a birthday, school, event, or personal keepsake — we’ll turn your photos, art, or theme ideas into a beautiful custom book.</p>
-            <p><strong>✨ Please fill out the form below to get started.</strong></p>
-            
-            <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--zen-teal); font-size: 0.9rem;">
-                <strong>Need Help?</strong> Contact us at <a href="https://wa.me/18768124295" target="_blank"><strong>(876) 812 - 4295</strong></a>.
-            </div>
-
-            <form id="orderForm" name="zendoodle_master_order" method="POST" action="thank-you.html" data-netlify="true" enctype="multipart/form-data" style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left;">
-                
-                <input type="hidden" name="form-name" value="zendoodle_master_order" />
-
-                <div class="step-indicator">Page <span id="pageNum">1</span></div>
-                <div class="progress-wrapper"><div class="progress-bar" id="progressBar"></div></div>
-
-                <div class="step-container active" id="step1">
-                    <h3>Contact Details</h3>
-                    
-                    <label>Full Name</label>
-                    <input type="text" name="full_name" id="contact_name">
-
-                    <label>Email Address</label>
-                    <input type="email" name="email" id="contact_email">
-
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" id="contact_phone" placeholder="(876) ...">
-
-                    <label style="margin-top: 20px;">What type of book would you like to create?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="book_type" value="custom_child_color"> Custom Colouring Book - Child</label>
-                        <label><input type="radio" name="book_type" value="custom_adult_color"> Custom Colouring Book - Adult</label>
-                        <label><input type="radio" name="book_type" value="custom_child_activity"> Custom Activity Book - Child</label>
-                        <label><input type="radio" name="book_type" value="bulk_child_color"> Bulk Mini Colouring Book - Child</label>
-                        <label><input type="radio" name="book_type" value="bulk_child_activity"> Bulk Mini Activity Book - Child</label>
-                        <label><input type="radio" name="book_type" value="bulk_adult_color"> Bulk Mini Colouring Book - Adult</label>
-                    </div>
-
-                    <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="nextStep()">Next &rarr;</button>
-                </div>
-
-                <div class="step-container" id="flow_custom_child_color">
-                    <h3>Custom Colouring Book (Child)</h3>
-
-                    <label>Select Package</label>
-                    <select name="cc_package" class="pricing-trigger">
-                        <option value="10pg">Custom Book Only (10 pages) - $2,500</option>
-                        <option value="20pg">Custom Book Only (20 pages) - $3,500</option>
-                        <option value="gift">Gift Package (20pg + Crayons + Box) - $7,500</option>
-                    </select>
-
-                    <label>Theme / Character</label>
-                    <select name="cc_theme" class="pricing-trigger">
-                        <option value="Cars & Trucks">Cars & Trucks</option>
-                        <option value="Dinosaurs">Dinosaurs</option>
-                        <option value="Space">Space</option>
-                        <option value="Pirates">Pirates</option>
-                        <option value="Dragons">Dragons</option>
-                        <option value="Unicorns">Unicorns</option>
-                        <option value="Fairies">Fairies</option>
-                        <option value="Mermaids">Mermaids</option>
-                        <option value="Animals/Jungle">Animals/Jungle</option>
-                        <option value="Frozen">Frozen</option>
-                        <option value="Peppa Pig">Peppa Pig</option>
-                        <option value="Cocomelon">Cocomelon</option>
-                        <option value="LOL Surprise">LOL Surprise</option>
-                        <option value="SpongeBob">SpongeBob</option>
-                        <option value="Bluey">Bluey</option>
-                        <option value="Paw Patrol">Paw Patrol</option>
-                        <option value="Smurfs">Smurfs</option>
-                        <option value="Sonic">Sonic</option>
-                        <option value="Pokemon">Pokemon</option>
-                        <option value="Minions">Minions</option>
-                        <option value="Barbie">Barbie & Ken (+$150)</option>
-                        <option value="Moana">Moana (+$150)</option>
-                        <option value="Spiderman">Spiderman (+$150)</option>
-                        <option value="Marvel">Marvel Super Heroes (+$150)</option>
-                        <option value="KPop">K-Pop Demon Hunters (+$150)</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    
-                    <label>Recipient Info (Name, Age, Gender)</label>
-                    <input type="text" name="cc_recipient_details">
-
-                    <label>Upload 2 Photos</label>
-                    <input type="file" name="cc_photos" multiple accept="image/*">
-
-                    <label>Occasion</label>
-                    <select name="cc_occasion">
-                        <option>Birthday</option>
-                        <option>Christmas</option>
-                        <option>Graduation</option>
-                        <option>Back to School</option>
-                        <option>Just Because</option>
-                        <option>Other</option>
-                    </select>
-
-                    <label>Turnaround Time</label>
-                    <select name="cc_turnaround" class="pricing-trigger">
-                        <option value="regular">Regular Service (7 Days)</option>
-                        <option value="rush">Rush Order (3 Days) +$1,500</option>
-                    </select>
+            <a href="about.html">About</a>
+            <a href="products.html">Products</a>
+            <a href="faq.html">FAQ</a>
+            <a href="
