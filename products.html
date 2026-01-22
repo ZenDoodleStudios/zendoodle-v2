@@ -6,6 +6,13 @@
     <title>Products | ZenDoodle Studios</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Extra styling for the detailed lists in this card */
+        .detail-list { text-align: left; margin: 15px 0; font-size: 0.95rem; }
+        .detail-list h4 { color: var(--zen-teal); margin-bottom: 5px; font-size: 1rem; }
+        .detail-list ul { padding-left: 20px; margin-bottom: 15px; }
+        .detail-list li { margin-bottom: 5px; color: var(--zen-dark); }
+    </style>
 </head>
 <body>
 
@@ -31,17 +38,30 @@
         <h2>What We Create</h2>
         <div class="product-grid">
             
-            <div class="product-card">
+            <div class="product-card" style="grid-row: span 2;">
                 <div>
                     <span class="tag">Best Seller</span>
-                    <h3>Custom Activity Books</h3>
-                    <p>Personalised books designed for children, teens, and adults. Made for your theme, your occasion, and your style.</p>
-                    <ul style="margin: 15px 0 15px 20px; font-size: 0.9rem;">
-                        <li>10 or 20 Page Formats</li>
-                        <li>Generated from photos</li>
-                    </ul>
+                    <h3>Custom Colouring & Activity Books</h3>
+                    
+                    <p><strong>Perfect for:</strong> Birthdays, school parties, graduations, milestones, special events, unique gifts, Christmas, and personal relaxation.</p>
+                    
+                    <div class="detail-list">
+                        <h4>What you can personalize:</h4>
+                        <ul>
+                            <li>Create a custom experience featuring the loved one (generated using their reference photo!)</li>
+                            <li>Choose a theme or character to match their favourite thing</li>
+                            <li>Age range and difficulty (simple for kids, detailed for teens/adults)</li>
+                        </ul>
+
+                        <h4>Popular formats:</h4>
+                        <ul>
+                            <li>10-page custom book</li>
+                            <li>20-page custom book</li>
+                            <li>Party/School bundle (bulk mini book packages)</li>
+                        </ul>
+                    </div>
                 </div>
-                <a href="contact.html" class="btn btn-primary">Order Custom Book</a>
+                <a href="contact.html" class="btn btn-primary">Order Custom Books</a>
             </div>
 
             <div class="product-card">
@@ -59,36 +79,4 @@
                     <h3>Bulk Mini Packages</h3>
                     <p>Perfect goodie bag stuffers. Available in 8, 12, 24, or 48 packs.</p>
                 </div>
-                <a href="contact.html" class="btn btn-primary">Inquire for Parties</a>
-            </div>
-
-            <div class="product-card" style="background-color: #fcfcfc;">
-                <div>
-                    <span class="tag" style="background-color: #e0e0e0; color: #555;">Coming Soon</span>
-                    <h3 style="color: #888;">Custom Canvas Prints</h3>
-                    <p>Wall art created from your favourite drawings.</p>
-                </div>
-                <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle!%20Add%20me%20to%20the%20Canvas%20Waitlist" target="_blank" class="btn btn-secondary">Join Waitlist</a>
-            </div>
-
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-icons">
-            <a href="https://wa.me/18768124295" target="_blank" class="footer-icon-link">
-                <span>💬</span> WhatsApp
-            </a>
-            <a href="https://instagram.com/zendoodlestudios" target="_blank" class="footer-icon-link">
-                <span>📸</span> Instagram
-            </a>
-            <a href="mailto:zendoodlestudios@outlook.com" class="footer-icon-link">
-                <span>✉️</span> Email
-            </a>
-        </div>
-        <span class="footer-phone">📞 1 (876) 812 - 4295</span>
-        <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
-    </footer>
-
-</body>
-</html>
+                <a href="contact.
