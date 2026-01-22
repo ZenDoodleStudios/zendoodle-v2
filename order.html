@@ -47,7 +47,7 @@
         input:focus, select:focus, textarea:focus { border-color: var(--zen-teal); outline: none; }
 
         /* File Upload */
-        input[type="file"] { border: 1px dashed var(--zen-teal); padding: 10px; background: #f0fafa; }
+        input[type="file"] { border: 1px dashed var(--zen-teal); padding: 10px; background: #f0fafa; width: 100%; box-sizing: border-box; }
 
         /* Radio Group (Page 1) */
         .radio-group label {
@@ -59,7 +59,11 @@
         .radio-group input { margin-right: 15px; width: auto; transform: scale(1.2); }
 
         /* Conditional "Other" inputs */
-        .conditional-input { display: none; margin-top: 10px; border-left: 3px solid var(--zen-teal); }
+        .conditional-input { display: none; margin-top: 10px; border-left: 3px solid var(--zen-teal); padding-left: 10px; }
+
+        /* Flex row for Age/Gender */
+        .flex-row { display: flex; gap: 15px; }
+        .flex-col { flex: 1; }
 
         /* Price Box */
         .price-box {
@@ -101,8 +105,11 @@
         <div style="text-align: center; max-width: 800px; margin: 0 auto 30px auto;">
             <h1>Create your ZenDoodle Book</h1>
             <p>Bring your imagination to life with a one-of-a-kind colouring book made just for you!</p>
+            <p>Whether it’s for a birthday, school, event, or personal keepsake — we’ll turn your photos, art, or theme ideas into a beautiful custom book.</p>
+            <p><strong>✨ Please fill out the form below to get started.</strong></p>
+            
             <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; border: 1px dashed var(--zen-teal); font-size: 0.9rem; display: inline-block; margin-top: 10px;">
-                <strong>Need Help?</strong> WhatsApp us at <a href="https://wa.me/18768124295" target="_blank" style="color: var(--zen-teal); font-weight: bold;">(876) 812 - 4295</a>
+                If you don't see an option that works for you, if you need customised packages, or for general assistance, contact us at <a href="https://wa.me/18768124295" target="_blank" style="color: var(--zen-teal); font-weight: bold;">(876) 812 - 4295</a>
             </div>
         </div>
 
@@ -195,8 +202,18 @@
                 </select>
                 <input type="text" id="other_child_col_theme" name="Child_Col_Theme_Other" class="conditional-input" placeholder="Please describe theme...">
 
-                <label>Recipient Info (Name, Age, Gender)</label>
-                <input type="text" name="Child_Col_Recipient_Info">
+                <label>Recipient Name *</label>
+                <input type="text" name="Child_Col_Recipient_Name" required>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>Age *</label>
+                        <input type="text" name="Child_Col_Recipient_Age" required>
+                    </div>
+                    <div class="flex-col">
+                        <label>Gender *</label>
+                        <input type="text" name="Child_Col_Recipient_Gender" required>
+                    </div>
+                </div>
 
                 <label>Upload 2 Photos</label>
                 <input type="file" name="Child_Col_Photos" multiple accept=".jpg, .png">
@@ -247,8 +264,18 @@
                 <label>Upload 2 Photos</label>
                 <input type="file" name="Adult_Col_Photos" multiple accept=".jpg, .png">
 
-                <label>Recipient Info (Name, Age, Gender)</label>
-                <input type="text" name="Adult_Col_Recipient_Info">
+                <label>Recipient Name *</label>
+                <input type="text" name="Adult_Col_Recipient_Name" required>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>Age *</label>
+                        <input type="text" name="Adult_Col_Recipient_Age" required>
+                    </div>
+                    <div class="flex-col">
+                        <label>Gender *</label>
+                        <input type="text" name="Adult_Col_Recipient_Gender" required>
+                    </div>
+                </div>
 
                 <label>Design Style</label>
                 <select name="Adult_Col_Style" class="pricing-trigger" onchange="toggleOther(this, 'other_adult_style')">
@@ -305,8 +332,18 @@
                 <h3>Child Custom Activity Book</h3>
                 <p class="sub-label">20 personalised, age-appropriate activity pages.</p>
 
-                <label>Recipient Info (Name, Age, Gender)</label>
-                <input type="text" name="Child_Act_Recipient_Info">
+                <label>Recipient Name *</label>
+                <input type="text" name="Child_Act_Recipient_Name" required>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>Age *</label>
+                        <input type="text" name="Child_Act_Recipient_Age" required>
+                    </div>
+                    <div class="flex-col">
+                        <label>Gender *</label>
+                        <input type="text" name="Child_Act_Recipient_Gender" required>
+                    </div>
+                </div>
 
                 <label>Upload 2 Photos</label>
                 <input type="file" name="Child_Act_Photos" multiple accept=".jpg, .png">
@@ -391,8 +428,19 @@
                 </select>
 
                 <div id="bulk_child_custom_fields" class="conditional-input">
-                    <label>Recipient Info</label>
-                    <input type="text" name="Bulk_Child_Recipient_Info">
+                    <label>Recipient Name</label>
+                    <input type="text" name="Bulk_Child_Recipient_Name">
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label>Age</label>
+                            <input type="text" name="Bulk_Child_Recipient_Age">
+                        </div>
+                        <div class="flex-col">
+                            <label>Gender</label>
+                            <input type="text" name="Bulk_Child_Recipient_Gender">
+                        </div>
+                    </div>
+
                     <label>Upload 2 Photos</label>
                     <input type="file" name="Bulk_Child_Photos" multiple>
                 </div>
@@ -764,7 +812,7 @@
                     const hiddenNested = container.querySelectorAll('.conditional-input');
                     hiddenNested.forEach(div => {
                         if(getComputedStyle(div).display === 'none') {
-                            div.querySelectorAll('input').forEach(inp => inp.disabled = true);
+                            div.querySelectorAll('input, select, textarea').forEach(inp => inp.disabled = true);
                         }
                     });
                 }
