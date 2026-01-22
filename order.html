@@ -148,7 +148,7 @@
                 <h3>Child Custom Colouring Book</h3>
                 
                 <label>Select Package *</label>
-                <select name="Child_Col_Package" class="pricing-trigger">
+                <select name="Child_Col_Package" class="pricing-trigger" required>
                     <option value="">-- Select --</option>
                     <option value="10pg">Custom Book Only (10 pages) - $2500</option>
                     <option value="20pg">Custom Book Only (20 pages) - $3500</option>
@@ -243,7 +243,7 @@
                 <h3>Adult Custom Colouring Book</h3>
 
                 <label>Select Package *</label>
-                <select name="Adult_Col_Package" class="pricing-trigger" onchange="toggleConditional(this, 'gift', 'adult_gift_theme_wrap')">
+                <select name="Adult_Col_Package" class="pricing-trigger" required onchange="toggleConditional(this, 'gift', 'adult_gift_theme_wrap')">
                     <option value="Motivational">Motivational - $3500</option>
                     <option value="Affirmation">Affirmation - $3500</option>
                     <option value="Christian">Christian - $3500</option>
@@ -408,7 +408,7 @@
                 <h3>Bulk Mini Books (Child)</h3>
 
                 <label>Select Package *</label>
-                <select name="Bulk_Child_Package" class="pricing-trigger" id="bulk_child_pkg_select" onchange="toggleConditionalGroup(this, ['Customised Colouring Book', 'Customised Activity Book'], 'bulk_child_custom_fields')">
+                <select name="Bulk_Child_Package" class="pricing-trigger" id="bulk_child_pkg_select" required onchange="toggleConditionalGroup(this, ['Customised Colouring Book', 'Customised Activity Book'], 'bulk_child_custom_fields')">
                     <option value="Generic Colouring Book">Generic Colouring Book</option>
                     <option value="Generic Activity Book">Generic Activity Book</option>
                     <option value="Customised Colouring Book">Customised Colouring Book</option>
@@ -523,7 +523,7 @@
                 <h3>Bulk Mini Books (Adult)</h3>
                 
                 <label>Select Package *</label>
-                <select name="Bulk_Adult_Package" class="pricing-trigger">
+                <select name="Bulk_Adult_Package" class="pricing-trigger" required>
                     <option value="Stress Relief">Stress Relief</option>
                     <option value="Mandala">Mandala</option>
                     <option value="Inspirational Messages">Inspirational Messages</option>
@@ -576,7 +576,7 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-back hidden" id="prevBtn" onclick="nextPrev(-1)">Back</button>
                 <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next Step</button>
-                <button type="submit" class="btn btn-primary hidden" id="submitBtn">Submit Order</button>
+                <button type="submit" class="btn btn-primary hidden" id="submitBtn" onclick="prepareSubmission()">Submit Order</button>
             </div>
 
         </form>
@@ -626,10 +626,8 @@
             if (n == 1 && !validateForm()) return false;
 
             if (currentTab === 0 && n === 1) {
-                // FIXED: Safety check to prevent JS error if nothing selected
                 const selectedRadio = document.querySelector('input[name="Book_Type"]:checked');
                 if(!selectedRadio) {
-                    // This should be caught by validateForm, but double check
                     alert("Please select a book type.");
                     return;
                 }
@@ -660,8 +658,8 @@
             const currentDiv = steps[currentTab];
             const inputs = currentDiv.querySelectorAll("input[required], select[required]");
             
-            // Check standard inputs
             inputs.forEach(input => {
+                // If visible and empty, invalid
                 if (input.value === "" && input.offsetParent !== null) { 
                     input.style.border = "1px solid red";
                     valid = false;
@@ -670,7 +668,6 @@
                 }
             });
 
-            // Special Check for Radio Buttons on Step 1
             if(currentTab === 0) {
                 const radioGroup = document.getElementById("bookTypeGroup");
                 const checked = document.querySelector('input[name="Book_Type"]:checked');
@@ -681,7 +678,6 @@
                     radioGroup.classList.remove("error");
                 }
             }
-
             return valid;
         }
 
@@ -781,6 +777,32 @@
 
             document.getElementById('display-price').innerText = "JMD $" + price.toLocaleString();
             document.getElementById('hidden_total_price').value = price;
+        }
+
+        // --- SUBMISSION FIX: Remove 'required' from hidden fields ---
+        function prepareSubmission() {
+            // Find all inactive steps
+            const allSteps = document.querySelectorAll('.step-container');
+            allSteps.forEach(step => {
+                if(!step.classList.contains('active')) {
+                    // Remove 'required' from all inputs in hidden steps
+                    const inputs = step.querySelectorAll('input, select, textarea');
+                    inputs.forEach(input => {
+                        input.removeAttribute('required');
+                        // Also clear value to avoid confusion? No, user said send everything.
+                    });
+                } else {
+                    // This is the ACTIVE step. 
+                    // But check nested hidden fields (e.g. "Other" text box)
+                    const hiddenNested = step.querySelectorAll('.conditional-input');
+                    hiddenNested.forEach(div => {
+                        if(getComputedStyle(div).display === 'none') {
+                             div.querySelectorAll('input, select, textarea').forEach(inp => inp.removeAttribute('required'));
+                        }
+                    });
+                }
+            });
+            // Browser continues to submit...
         }
     </script>
 </body>
