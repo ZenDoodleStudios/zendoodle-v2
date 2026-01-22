@@ -35,6 +35,9 @@
         }
         .price-display { font-size: 2rem; font-weight: bold; color: var(--zen-teal); display: block; font-family: 'Fredoka', sans-serif; }
         
+        /* CRITICAL FIX: Ensure Form is Clickable */
+        form { position: relative; z-index: 100; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -97,7 +100,7 @@
                         <label class="radio-option"><input type="radio" name="book_type" value="bulk_adult_color"> Bulk Mini Colouring Book - Adult</label>
                     </div>
 
-                    <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="handleRouter()">Next &rarr;</button>
+                    <button type="button" id="nextBtn" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Next &rarr;</button>
                 </div>
 
                 <div class="step-container" id="page2">
@@ -220,192 +223,4 @@
                         <option value="Other">Other</option>
                     </select>
 
-                    <label>Add Gift Packaging? (+$1500)</label>
-                    <select id="p4_gift" class="calc-trigger">
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                    </select>
-
-                    <label>Turnaround Time *</label>
-                    <select id="p4_turnaround" class="calc-trigger">
-                        <option value="regular">Regular Service - 7 days</option>
-                        <option value="rush">Rush Order - 3 days (+$1500)</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
-                </div>
-
-                <div class="step-container" id="page5">
-                    <h3>Bulk Mini Books (Child)</h3>
-                    
-                    <label>Select Package *</label>
-                    <select id="p5_package" class="calc-trigger">
-                        <option value="generic_color">Generic Colouring Book</option>
-                        <option value="generic_activity">Generic Activity Book</option>
-                        <option value="custom_color">Customised Colouring Book</option>
-                        <option value="custom_activity">Customised Activity Book</option>
-                    </select>
-
-                    <label>Quantity *</label>
-                    <select id="p5_qty" class="calc-trigger">
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="48">48</option>
-                    </select>
-
-                    <label>Recipient Info / Details</label>
-                    <input type="text" id="p5_recipient_info" placeholder="Name, Age, Gender (if custom)">
-                    
-                    <label>Upload Photos (If Custom)</label>
-                    <input type="file" name="p5_photos" multiple accept=".jpg, .png">
-
-                    <label>Size</label>
-                    <select id="p5_size" class="calc-trigger">
-                        <option value="standard">Standard - 4.25” x 5.5”</option>
-                        <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
-                    </select>
-
-                    <label>Add Crayons/Pencils?</label>
-                    <select id="p5_addons" class="calc-trigger">
-                        <option value="no">No</option>
-                        <option value="yes">Yes (Extra cost)</option>
-                    </select>
-
-                    <label>Theme *</label>
-                    <select id="p5_theme" class="calc-trigger">
-                        <option value="Generic">Generic</option>
-                        <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
-                        <option value="Moana">Moana (+$150)</option>
-                        <option value="Spiderman">Spiderman (+$150)</option>
-                        <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
-                        <option value="Other">Other</option>
-                    </select>
-
-                    <label>Occasion</label>
-                    <select id="p5_occasion">
-                        <option>Birthday Party</option>
-                        <option>Graduation Party</option>
-                        <option>Class Party</option>
-                        <option>Easter Egg Hunt</option>
-                        <option value="Other">Other</option>
-                    </select>
-
-                    <label>Turnaround Time *</label>
-                    <select id="p5_turnaround" class="calc-trigger">
-                        <option value="regular">Regular Service - 7 days</option>
-                        <option value="rush">Rush Order - 3 days (+$1500)</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
-                </div>
-
-                <div class="step-container" id="page6">
-                    <h3>Bulk Mini Books (Adult)</h3>
-                    
-                    <label>Select Package *</label>
-                    <select id="p6_package" class="calc-trigger">
-                        <option value="stress">Stress Relief</option>
-                        <option value="mandala">Mandala</option>
-                        <option value="inspirational">Inspirational Messages</option>
-                        <option value="spiritual">Spiritual</option>
-                    </select>
-
-                    <label>Quantity *</label>
-                    <select id="p6_qty" class="calc-trigger">
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="48">48</option>
-                    </select>
-
-                    <label>Size</label>
-                    <select id="p6_size" class="calc-trigger">
-                        <option value="standard">Standard - 4.25” x 5.5”</option>
-                        <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
-                    </select>
-
-                    <label>Add Crayons/Pencils?</label>
-                    <select id="p6_addons" class="calc-trigger">
-                        <option value="no">No</option>
-                        <option value="yes">Yes (Extra cost)</option>
-                    </select>
-
-                    <label>Turnaround Time *</label>
-                    <select id="p6_turnaround" class="calc-trigger">
-                        <option value="regular">Regular Service - 7 days</option>
-                        <option value="rush">Rush Order - 3 days (+$1500)</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack(1)">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review & Submit</button>
-                </div>
-
-                <div class="step-container" id="review_page">
-                    <h3>Order Summary</h3>
-                    <p>Based on your selections:</p>
-                    
-                    <div class="price-box">
-                        Estimated Total:
-                        <span id="finalPrice" class="price-display">$0 JMD</span>
-                    </div>
-                    
-                    <label>Additional Notes</label>
-                    <textarea name="final_notes" rows="4"></textarea>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack('dynamic')">Edit Order</button>
-                    <button type="submit" class="btn btn-primary">Confirm & Send</button>
-                </div>
-
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
-    </footer>
-
-    <script>
-        // -- 1. SETUP VARIABLES --
-        let currentPage = 1;
-        let lastPage = 1;
-        let finalPriceJMD = 0;
-
-        // -- 2. NAVIGATION FUNCTIONS --
-        function handleRouter() {
-            // Get values
-            const name = document.getElementById('contact_name').value;
-            const email = document.getElementById('contact_email').value;
-            const phone = document.getElementById('contact_phone').value;
-            const type = document.querySelector('input[name="book_type"]:checked');
-
-            // Validate Page 1
-            if (!name || !email || !phone) {
-                alert('Please fill in your Name, Email, and Phone to continue.');
-                return;
-            }
-            if (!type) {
-                alert('Please select a book type.');
-                return;
-            }
-
-            // Hide Page 1
-            document.getElementById('page1').classList.remove('active');
-            
-            // Find Destination
-            let nextId = "";
-            if (type.value === 'custom_child_color') nextId = 'page2';
-            else if (type.value === 'custom_adult_color') nextId = 'page3';
-            else if (type.value === 'custom_child_activity') nextId = 'page4';
-            else if (type.value.includes('bulk_child')) nextId = 'page5';
-            else if (type.value === 'bulk_adult_color') nextId = 'page6';
-
-            // Show Destination
-            document.getElementById(nextId).classList.add('active');
-            lastPage = parseInt(nextId.replace('page',''));
-            updateProgress(lastPage);
-        }
-
-        function go
+                    <label>Add Gift Packaging? (+$1500)</
