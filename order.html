@@ -8,16 +8,14 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* --- FORM SPECIFIC STYLES --- */
-        /* Hide all pages by default, except the one with 'active-step' class */
+        /* --- FORM STYLES --- */
         .form-step { display: none; animation: fadeIn 0.4s ease-in-out; }
-        .form-step.active-step { display: block; }
+        .form-step.active { display: block; }
         
-        /* Keyframes for smooth transition */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Input Styling */
-        input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+        input[type="text"], input[type="email"], input[type="tel"], select, textarea, input[type="date"] {
             width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-top: 5px; margin-bottom: 15px; font-family: 'Quicksand', sans-serif; transition: 0.3s;
         }
         input:focus, select:focus, textarea:focus { border-color: var(--zen-teal); outline: none; }
@@ -68,438 +66,38 @@
                 
                 <input type="hidden" name="form-name" value="zendoodle_full_order" />
                 
-                <input type="hidden" name="Final_Price" id="final_price_input">
-                <textarea name="Order_Summary" id="order_summary_input" style="display:none;"></textarea>
+                <input type="hidden" name="Final_Price_Estimate" id="final_price_input">
+                <textarea name="Order_Summary_Full" id="order_summary_input" style="display:none;"></textarea>
 
                 <div class="progress-container"><div class="progress-fill" id="progressBar"></div></div>
 
-                <div class="form-step active-step" id="step_1">
+                <div class="form-step active" id="step1">
                     <h3>Step 1: The Basics</h3>
                     
                     <label>Full Name *</label>
-                    <input type="text" id="c_name" required>
+                    <input type="text" id="contact_name" required>
                     
                     <label>Email Address *</label>
-                    <input type="email" id="c_email" required>
+                    <input type="email" id="contact_email" required>
                     
                     <label>Phone Number *</label>
-                    <input type="tel" id="c_phone" placeholder="(876) ..." required>
+                    <input type="tel" id="contact_phone" placeholder="(876) ..." required>
 
-                    <label style="margin-top: 15px;">What are we making today? *</label>
+                    <label style="margin-top: 20px;">What type of book would you like to create? *</label>
                     
                     <label class="radio-option">
-                        <input type="radio" name="product_selector" value="custom_child">
-                        Custom Colouring Book (Child)
+                        <input type="radio" name="book_type" value="custom_child_color"> Custom Colouring Book - Child
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="product_selector" value="custom_adult">
-                        Custom Colouring Book (Adult)
+                        <input type="radio" name="book_type" value="custom_adult_color"> Custom Colouring Book - Adult
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="product_selector" value="custom_activity">
-                        Custom Activity Book (Child)
+                        <input type="radio" name="book_type" value="custom_child_activity"> Custom Activity Book - Child
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="product_selector" value="bulk_child">
-                        Bulk Mini Books (Child)
+                        <input type="radio" name="book_type" value="bulk_child_color"> Bulk Mini Colouring Book - Child
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="product_selector" value="bulk_adult">
-                        Bulk Mini Books (Adult)
+                        <input type="radio" name="book_type" value="bulk_child_activity"> Bulk Mini Activity Book - Child
                     </label>
-
-                    <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="validateAndNext()">Next Step &rarr;</button>
-                </div>
-
-                <div class="form-step" id="step_custom_child">
-                    <h3>Custom Child Colouring Book</h3>
-                    <label>Package</label>
-                    <select id="cc_pkg" class="calc">
-                        <option value="10pg_2500">10 Pages ($2,500)</option>
-                        <option value="20pg_3500">20 Pages ($3,500)</option>
-                        <option value="gift_7500">Gift Package ($7,500)</option>
-                    </select>
-
-                    <label>Theme</label>
-                    <select id="cc_theme" class="calc">
-                        <option value="Standard">Standard (Dinosaurs, Princesses, etc)</option>
-                        <option value="Premium">Premium (Barbie, Spiderman, Moana) +$150</option>
-                    </select>
-
-                    <label>Upload 2 Photos</label>
-                    <input type="file" name="child_photos" multiple accept="image/*">
-
-                    <label>Child's Name & Age</label>
-                    <input type="text" id="cc_details">
-
-                    <label>Turnaround</label>
-                    <select id="cc_rush" class="calc">
-                        <option value="Standard">Standard (7 Days)</option>
-                        <option value="Rush">Rush (3 Days) +$1,500</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price</button>
-                </div>
-
-                <div class="form-step" id="step_custom_adult">
-                    <h3>Custom Adult Colouring Book</h3>
-                    <label>Package</label>
-                    <select id="ac_pkg" class="calc">
-                        <option value="std_3500">Standard ($3,500)</option>
-                        <option value="gift_8500">Gift Package ($8,500)</option>
-                    </select>
-
-                    <label>Style</label>
-                    <select id="ac_style" class="calc">
-                        <option value="Standard">Floral / Nature</option>
-                        <option value="Premium">Mandala / Anime +$150</option>
-                    </select>
-
-                    <label>Upload 2 Photos</label>
-                    <input type="file" name="adult_photos" multiple accept="image/*">
-
-                    <label>Turnaround</label>
-                    <select id="ac_rush" class="calc">
-                        <option value="Standard">Standard (7 Days)</option>
-                        <option value="Rush">Rush (3 Days) +$1,500</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price</button>
-                </div>
-
-                <div class="form-step" id="step_custom_activity">
-                    <h3>Custom Child Activity Book</h3>
-                    <label>Character Theme?</label>
-                    <select id="ca_theme" class="calc">
-                        <option value="none_4500">No Character ($4,500)</option>
-                        <option value="std_6000">Standard Character ($6,000)</option>
-                        <option value="prem_6150">Premium Character ($6,150)</option>
-                    </select>
-
-                    <label>Add Gift Box?</label>
-                    <select id="ca_gift" class="calc">
-                        <option value="No">No</option>
-                        <option value="Yes">Yes (+$1,500)</option>
-                    </select>
-
-                    <label>Upload 2 Photos</label>
-                    <input type="file" name="activity_photos" multiple accept="image/*">
-
-                    <label>Child's Name & Age</label>
-                    <input type="text" id="ca_details">
-
-                    <label>Turnaround</label>
-                    <select id="ca_rush" class="calc">
-                        <option value="Standard">Standard (7 Days)</option>
-                        <option value="Rush">Rush (3 Days) +$1,500</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price</button>
-                </div>
-
-                <div class="form-step" id="step_bulk_child">
-                    <h3>Bulk Mini Books (Child)</h3>
-                    
-                    <label>Type</label>
-                    <select id="bc_type" class="calc">
-                        <option value="generic">Generic (Cheaper)</option>
-                        <option value="custom">Customised (Personalised)</option>
-                    </select>
-
-                    <label>Quantity</label>
-                    <select id="bc_qty" class="calc">
-                        <option value="8">8 Pack</option>
-                        <option value="12">12 Pack</option>
-                        <option value="24">24 Pack</option>
-                        <option value="48">48 Pack</option>
-                    </select>
-
-                    <label>Size Upgrade?</label>
-                    <select id="bc_size" class="calc">
-                        <option value="std">Standard Size</option>
-                        <option value="large">Large Size (Extra Cost)</option>
-                    </select>
-
-                    <label>Add Crayons?</label>
-                    <select id="bc_crayons" class="calc">
-                        <option value="no">No</option>
-                        <option value="yes">Yes (Extra Cost)</option>
-                    </select>
-
-                    <label>Theme</label>
-                    <select id="bc_theme" class="calc">
-                        <option value="Standard">Standard Theme</option>
-                        <option value="Premium">Barbie/Marvel/etc (+$150)</option>
-                    </select>
-
-                    <label>Event Details (Name/Age/Date)</label>
-                    <input type="text" id="bc_details">
-
-                    <label>Turnaround</label>
-                    <select id="bc_rush" class="calc">
-                        <option value="Standard">Standard (7 Days)</option>
-                        <option value="Rush">Rush (3 Days) +$1,500</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price</button>
-                </div>
-
-                <div class="form-step" id="step_bulk_adult">
-                    <h3>Bulk Mini Books (Adult)</h3>
-                    
-                    <label>Theme</label>
-                    <select id="ba_type" class="calc">
-                        <option value="mandala">Mandala / Stress Relief</option>
-                        <option value="inspire">Inspirational / Spiritual</option>
-                    </select>
-
-                    <label>Quantity</label>
-                    <select id="ba_qty" class="calc">
-                        <option value="8">8 Pack</option>
-                        <option value="12">12 Pack</option>
-                        <option value="24">24 Pack</option>
-                        <option value="48">48 Pack</option>
-                    </select>
-
-                    <label>Size Upgrade?</label>
-                    <select id="ba_size" class="calc">
-                        <option value="std">Standard Size</option>
-                        <option value="large">Large Size (Extra Cost)</option>
-                    </select>
-
-                    <label>Add Pencils?</label>
-                    <select id="ba_crayons" class="calc">
-                        <option value="no">No</option>
-                        <option value="yes">Yes (Extra Cost)</option>
-                    </select>
-
-                    <label>Turnaround</label>
-                    <select id="ba_rush" class="calc">
-                        <option value="Standard">Standard (7 Days)</option>
-                        <option value="Rush">Rush (3 Days) +$1,500</option>
-                    </select>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price</button>
-                </div>
-
-                <div class="form-step" id="step_review">
-                    <h3>Order Summary</h3>
-                    <p>Almost done! Please review your estimated total.</p>
-                    
-                    <div class="total-box">
-                        Estimated Total:
-                        <span class="total-amount" id="display_price">$0 JMD</span>
-                    </div>
-
-                    <label style="margin-top:20px;">Additional Notes</label>
-                    <textarea id="final_notes" rows="3" placeholder="Anything else we should know?"></textarea>
-
-                    <button type="button" class="btn btn-secondary" onclick="goBack()">Edit</button>
-                    <button type="submit" class="btn btn-primary">Confirm & Send Order</button>
-                </div>
-
-            </form>
-        </div>
-    </section>
-
-    <script>
-        // --- 1. SETUP ---
-        // Variables to hold user selection
-        let selectedProduct = "";
-        let finalPrice = 0;
-
-        // --- 2. NAVIGATION LOGIC ---
-        function validateAndNext() {
-            // Check basics
-            const name = document.getElementById("c_name").value;
-            const email = document.getElementById("c_email").value;
-            const phone = document.getElementById("c_phone").value;
-            
-            // Check radio button
-            const radios = document.getElementsByName("product_selector");
-            let typeSelected = false;
-            for (let i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    selectedProduct = radios[i].value;
-                    typeSelected = true;
-                    break;
-                }
-            }
-
-            // Alert if missing
-            if(name === "" || email === "" || phone === "") {
-                alert("Please fill in your Name, Email, and Phone.");
-                return;
-            }
-            if(!typeSelected) {
-                alert("Please select a product type.");
-                return;
-            }
-
-            // Hide Step 1
-            document.getElementById("step_1").classList.remove("active-step");
-
-            // Show Relevant Step
-            if(selectedProduct === "custom_child") document.getElementById("step_custom_child").classList.add("active-step");
-            if(selectedProduct === "custom_adult") document.getElementById("step_custom_adult").classList.add("active-step");
-            if(selectedProduct === "custom_activity") document.getElementById("step_custom_activity").classList.add("active-step");
-            if(selectedProduct === "bulk_child") document.getElementById("step_bulk_child").classList.add("active-step");
-            if(selectedProduct === "bulk_adult") document.getElementById("step_bulk_adult").classList.add("active-step");
-
-            document.getElementById("progressBar").style.width = "50%";
-        }
-
-        function goBack() {
-            // Hide all steps
-            const steps = document.querySelectorAll(".form-step");
-            steps.forEach(s => s.classList.remove("active-step"));
-            // Show Step 1
-            document.getElementById("step_1").classList.add("active-step");
-            document.getElementById("progressBar").style.width = "15%";
-        }
-
-        function goToReview() {
-            calculatePrice();
-            // Hide all steps
-            const steps = document.querySelectorAll(".form-step");
-            steps.forEach(s => s.classList.remove("active-step"));
-            // Show Review
-            document.getElementById("step_review").classList.add("active-step");
-            document.getElementById("progressBar").style.width = "100%";
-        }
-
-        // --- 3. PRICING LOGIC ---
-        function calculatePrice() {
-            let total = 0;
-
-            // A. CUSTOM CHILD COLOR
-            if (selectedProduct === "custom_child") {
-                const pkg = document.getElementById("cc_pkg").value;
-                if(pkg === "10pg_2500") total = 2500;
-                if(pkg === "20pg_3500") total = 3500;
-                if(pkg === "gift_7500") total = 7500;
-
-                if(document.getElementById("cc_theme").value === "Premium") total += 150;
-                if(document.getElementById("cc_rush").value === "Rush") total += 1500;
-            }
-
-            // B. CUSTOM ADULT COLOR
-            else if (selectedProduct === "custom_adult") {
-                const pkg = document.getElementById("ac_pkg").value;
-                if(pkg === "std_3500") total = 3500;
-                if(pkg === "gift_8500") total = 8500;
-
-                if(document.getElementById("ac_style").value === "Premium") total += 150;
-                if(document.getElementById("ac_rush").value === "Rush") total += 1500;
-            }
-
-            // C. CUSTOM ACTIVITY
-            else if (selectedProduct === "custom_activity") {
-                const theme = document.getElementById("ca_theme").value;
-                if(theme === "none_4500") total = 4500;
-                if(theme === "std_6000") total = 6000;
-                if(theme === "prem_6150") total = 6150;
-
-                if(document.getElementById("ca_gift").value === "Yes") total += 1500;
-                if(document.getElementById("ca_rush").value === "Rush") total += 1500;
-            }
-
-            // D. BULK CHILD
-            else if (selectedProduct === "bulk_child") {
-                const type = document.getElementById("bc_type").value;
-                const qty = parseInt(document.getElementById("bc_qty").value);
-                
-                // Base
-                if(type === "generic") {
-                    if(qty==8) total=2500; if(qty==12) total=3000; if(qty==24) total=4000; if(qty==48) total=5000;
-                } else {
-                    if(qty==8) total=4500; if(qty==12) total=6000; if(qty==24) total=7000; if(qty==48) total=8000;
-                }
-                
-                // Addons
-                if(document.getElementById("bc_size").value === "large") {
-                    if(qty<=12) total+=1000; else if(qty==24) total+=1500; else total+=2000;
-                }
-                if(document.getElementById("bc_crayons").value === "yes") {
-                    if(qty<=12) total+=500; else if(qty==24) total+=1000; else total+=1500;
-                }
-                if(document.getElementById("bc_theme").value === "Premium") total += 150;
-                if(document.getElementById("bc_rush").value === "Rush") total += 1500;
-            }
-
-            // E. BULK ADULT
-            else if (selectedProduct === "bulk_adult") {
-                const type = document.getElementById("ba_type").value;
-                const qty = parseInt(document.getElementById("ba_qty").value);
-
-                // Base
-                if(type === "mandala") {
-                    if(qty==8) total=4500; if(qty==12) total=5500; if(qty==24) total=6500; if(qty==48) total=7500;
-                } else {
-                    if(qty==8) total=5500; if(qty==12) total=6500; if(qty==24) total=7500; if(qty==48) total=8500;
-                }
-
-                // Addons
-                if(document.getElementById("ba_size").value === "large") {
-                    if(qty<=12) total+=1000; else if(qty==24) total+=1500; else total+=2000;
-                }
-                if(document.getElementById("ba_crayons").value === "yes") {
-                    if(qty<=12) total+=500; else if(qty==24) total+=1000; else total+=1500;
-                }
-                if(document.getElementById("ba_rush").value === "Rush") total += 1500;
-            }
-
-            // Update UI
-            finalPrice = total;
-            document.getElementById("display_price").innerText = "$" + total.toLocaleString() + " JMD";
-        }
-
-        // --- 4. SUBMIT HANDLER (Clean Summary) ---
-        document.getElementById("orderForm").addEventListener("submit", function(e) {
-            e.preventDefault(); // Stop initially
-
-            // Gather Basics
-            const name = document.getElementById("c_name").value;
-            const email = document.getElementById("c_email").value;
-            const phone = document.getElementById("c_phone").value;
-            const notes = document.getElementById("final_notes").value;
-
-            // Build Summary Text
-            let summary = `--- CONTACT ---\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\n`;
-            summary += `--- ORDER ---\nProduct: ${selectedProduct}\n`;
-            
-            // Add Specifics based on product
-            if(selectedProduct === "custom_child") {
-                summary += `Package: ${document.getElementById("cc_pkg").value}\n`;
-                summary += `Theme: ${document.getElementById("cc_theme").value}\n`;
-                summary += `Details: ${document.getElementById("cc_details").value}\n`;
-                summary += `Rush: ${document.getElementById("cc_rush").value}\n`;
-            }
-            if(selectedProduct === "bulk_child") {
-                summary += `Type: ${document.getElementById("bc_type").value}\n`;
-                summary += `Qty: ${document.getElementById("bc_qty").value}\n`;
-                summary += `Theme: ${document.getElementById("bc_theme").value}\n`;
-                summary += `Details: ${document.getElementById("bc_details").value}\n`;
-            }
-            // (Similar logic applies to other products, simplified for the email)
-
-            summary += `\n--- NOTES ---\n${notes}\n`;
-            summary += `\n--- TOTAL ESTIMATE ---\n$${finalPrice.toLocaleString()} JMD`;
-
-            // Inject into hidden fields
-            document.getElementById("order_summary_input").value = summary;
-            document.getElementById("final_price_input").value = "$" + finalPrice.toLocaleString();
-
-            // Submit
-            e.target.submit();
-        });
-
-    </script>
-
-</body>
-</html>
+                    <label class="radio-option">
