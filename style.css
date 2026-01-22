@@ -178,3 +178,54 @@ footer {
     .nav-links { display: none; }
     .hero { padding-top: 3rem; }
 }
+/* --- MULTI-STEP FORM STYLES --- */
+.step-container {
+    display: none; /* Hidden by default */
+    animation: fadeIn 0.5s;
+}
+.step-container.active {
+    display: block; /* Show active step */
+}
+
+/* Progress Bar */
+.progress-wrapper {
+    margin-bottom: 30px;
+    background: #eee;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    background: var(--zen-teal);
+    width: 0%;
+    transition: width 0.4s ease;
+}
+.step-indicator {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--zen-teal);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Form layout tweaks */
+.radio-group label {
+    display: block;
+    background: #f9fdfd;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.radio-group label:hover {
+    border-color: var(--zen-teal);
+    background: white;
+}
+.radio-group input {
+    margin-right: 10px;
+    width: auto;
+}
+.hidden { display: none; }

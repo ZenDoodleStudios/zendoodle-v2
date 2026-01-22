@@ -3,36 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Place Your Order | ZenDoodle Studios</title>
+    <title>Create Your ZenDoodle Book</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* SMART FORM STYLES */
-        .form-section { display: none; animation: fadeIn 0.4s ease; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee; }
-        .form-section.active { display: block; }
-        
-        .price-box {
-            background: #eef9f8; 
-            border: 2px solid var(--zen-teal); 
-            color: var(--zen-dark);
-            padding: 15px; 
-            border-radius: 10px; 
-            text-align: center; 
-            margin-top: 20px;
-            font-weight: bold;
-            display: none; 
-        }
-        .price-display { font-size: 1.5rem; color: var(--zen-teal); font-family: 'Fredoka', sans-serif; display: block; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
 </head>
 <body>
 
     <div class="blob-container">
-        <div class="blob b1"></div>
-        <div class="floating-icon i3">🖍️</div>
+        <div class="blob b2"></div>
+        <div class="floating-icon i2">🎨</div>
         <img src="assets/mascot.jpg" alt="" class="mascot-bg">
     </div>
 
@@ -40,54 +19,439 @@
         <a href="index.html"><img src="assets/logo.jpg" alt="ZenDoodle Logo" class="brand-logo"></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="products.html">Products</a>
-            <a href="faq.html">FAQ</a>
             <a href="contact.html">Contact</a>
-            <a href="order.html" class="nav-cta">Order Now</a>
         </div>
     </nav>
 
     <section class="section">
-        <div class="contact-wrapper">
-            <h2>Start Your Order</h2>
-            <p>Tell us what you need, and we'll calculate an estimate for you!</p>
+        <div class="contact-wrapper" style="max-width: 800px;">
             
-            <form name="zendoodle-smart-order" method="POST" data-netlify="true" enctype="multipart/form-data" style="text-align: left; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <h1>Create your ZenDoodle Book</h1>
+            <p>Bring your imagination to life with a one-of-a-kind colouring book made just for you! Whether it’s for a birthday, school, event, or personal keepsake.</p>
+            
+            <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--zen-teal); font-size: 0.9rem;">
+                <strong>Need Help?</strong> Contact us at <a href="https://wa.me/18768124295" target="_blank"><strong>(876) 812 - 4295</strong></a>.<br>
+                <em>Note: Custom books are 8.5" x 11". Mini books are 4.25" x 5.5".</em>
+            </div>
+
+            <form id="orderForm" name="zendoodle_master_order" method="POST" action="thank-you.html" data-netlify="true" enctype="multipart/form-data" style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left;">
                 
-                <h3 style="font-size: 1.2rem; margin-bottom: 15px;">1. Your Details</h3>
-                <label>Name</label>
-                <input type="text" name="name" placeholder="Your Name" required>
-                
-                <label>Email</label>
-                <input type="email" name="email" placeholder="email@address.com" required>
-                
-                <label>WhatsApp / Phone</label>
-                <input type="tel" name="phone" placeholder="(876) ..." required>
+                <div class="step-indicator">Page <span id="pageNum">1</span></div>
+                <div class="progress-wrapper"><div class="progress-bar" id="progressBar"></div></div>
 
-                <h3 style="font-size: 1.2rem; margin-top: 25px; margin-bottom: 15px;">2. Choose Product</h3>
-                <label>I am interested in:</label>
-                <select name="product" id="productSelector" onchange="updateForm()" required>
-                    <option value="" disabled selected>Select an option...</option>
-                    <option value="custom_book">Custom Activity Book (Single)</option>
-                    <option value="bulk_minis">Bulk Mini Books (Parties)</option>
-                </select>
+                <div class="step-container active" id="step1">
+                    <h3>Let's Get Started</h3>
+                    
+                    <label>Full Name *</label>
+                    <input type="text" name="full_name" required>
 
-                <div id="customSection" class="form-section">
-                    <h4 style="color: var(--zen-teal);">🎨 Custom Book Details</h4>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Base Price: $3,500 JMD</p>
+                    <label>Email Address *</label>
+                    <input type="email" name="email" required>
 
-                    <label>Book Star's Name</label>
-                    <input type="text" name="star_name" placeholder="Child's Name">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone" placeholder="(876) ..." required>
 
-                    <label>Reference Photo</label>
-                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">Upload a clear photo to generate the character.</p>
-                    <input type="file" name="photo" accept="image/*" style="background: #f9f9f9; padding: 10px;">
+                    <label style="margin-top: 20px;">What type of book would you like to create? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="book_type" value="custom_child_color" required> Custom Colouring Book - Child</label>
+                        <label><input type="radio" name="book_type" value="custom_adult_color"> Custom Colouring Book - Adult</label>
+                        <label><input type="radio" name="book_type" value="custom_child_activity"> Custom Activity Book - Child</label>
+                        <label><input type="radio" name="book_type" value="bulk_child_color"> Bulk Mini Colouring Book - Child</label>
+                        <label><input type="radio" name="book_type" value="bulk_child_activity"> Bulk Mini Activity Book - Child</label>
+                        <label><input type="radio" name="book_type" value="bulk_adult_color"> Bulk Mini Colouring Book - Adult</label>
+                    </div>
 
-                    <label>Theme</label>
-                    <input type="text" name="custom_theme" placeholder="e.g. Princess, Spiderman, Dinosaurs...">
+                    <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="nextStep()">Next &rarr;</button>
                 </div>
 
-                <div id="bulkSection" class="form-section">
-                    <h4 style="color: var(--zen-teal);">🎉 Bulk Party Details</h4>
-                    <p style="font-size: 0.85
+                <div class="step-container" id="flow_custom_child_color">
+                    <h3>Custom Colouring Book (Child)</h3>
+
+                    <label>Select Package *</label>
+                    <select name="cc_package" class="pricing-trigger">
+                        <option value="10pg">Custom Book Only (10 pages) - $2,500</option>
+                        <option value="20pg">Custom Book Only (20 pages) - $3,500</option>
+                        <option value="gift">Gift Package (20pg + Crayons + Box) - $7,500</option>
+                    </select>
+
+                    <label>Theme / Character *</label>
+                    <select name="cc_theme" class="pricing-trigger">
+                        <option value="generic">Generic / Other</option>
+                        <option value="Barbie">Barbie & Ken (+$150)</option>
+                        <option value="Moana">Moana (+$150)</option>
+                        <option value="Spiderman">Spiderman (+$150)</option>
+                        <option value="Marvel">Marvel Super Heroes (+$150)</option>
+                        <option value="KPop">K-Pop Demon Hunters (+$150)</option>
+                        <option value="Dinosaurs">Dinosaurs</option>
+                        <option value="Unicorns">Unicorns</option>
+                        <option value="PawPatrol">Paw Patrol</option>
+                        <option value="Bluey">Bluey</option>
+                    </select>
+                    
+                    <label>Recipient Info</label>
+                    <input type="text" name="cc_recipient_name" placeholder="Name">
+                    <input type="text" name="cc_recipient_age" placeholder="Age">
+                    <input type="text" name="cc_recipient_gender" placeholder="Gender">
+
+                    <label>Upload 2 Photos</label>
+                    <input type="file" name="cc_photos" multiple accept="image/*">
+
+                    <label>Occasion</label>
+                    <select name="cc_occasion">
+                        <option>Birthday</option>
+                        <option>Christmas</option>
+                        <option>Graduation</option>
+                        <option>Just Because</option>
+                        <option>Other</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select name="cc_turnaround" class="pricing-trigger">
+                        <option value="regular">Regular Service (7 Days)</option>
+                        <option value="rush">Rush Order (3 Days) +$1,500</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price & Submit</button>
+                </div>
+
+                <div class="step-container" id="flow_custom_adult_color">
+                    <h3>Custom Colouring Book (Adult)</h3>
+
+                    <label>Select Package *</label>
+                    <select name="ac_package" class="pricing-trigger">
+                        <option value="motivational">Motivational / Affirmation / Christian - $3,500</option>
+                        <option value="gift">Gift Package (20pg + Pencils + Box) - $8,500</option>
+                    </select>
+
+                    <label>Theme Style</label>
+                    <select name="ac_theme" class="pricing-trigger">
+                        <option value="floral">Floral / Nature</option>
+                        <option value="Mandala">Mandala (+$150)</option>
+                        <option value="Anime">Anime (+$150)</option>
+                        <option value="Kawaii">Kawaii Cute (+$150)</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label>Upload 2 Photos</label>
+                    <input type="file" name="ac_photos" multiple accept="image/*">
+
+                    <label>Recipient Info</label>
+                    <input type="text" name="ac_recipient_details" placeholder="Name / Age / Gender">
+
+                    <label>Turnaround Time *</label>
+                    <select name="ac_turnaround" class="pricing-trigger">
+                        <option value="regular">Regular Service (7 Days)</option>
+                        <option value="rush">Rush Order (3 Days) +$1,500</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price & Submit</button>
+                </div>
+
+                <div class="step-container" id="flow_custom_child_activity">
+                    <h3>Custom Activity Book (20 Pages)</h3>
+
+                    <label>Use a Character Theme? *</label>
+                    <select name="ca_char_select" class="pricing-trigger">
+                        <option value="no">No Character - $4,500</option>
+                        <option value="yes">Yes, Character Theme - $6,000</option>
+                    </select>
+
+                    <label>If Yes, Select Character (+$150 for Premium)</label>
+                    <select name="ca_theme" class="pricing-trigger">
+                        <option value="standard">Standard Character</option>
+                        <option value="premium">Barbie / Moana / Spiderman / Marvel / KPop (+$150)</option>
+                    </select>
+
+                    <label>Add Gift Packaging? (+$1,500)</label>
+                    <select name="ca_packaging" class="pricing-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+
+                    <label>Recipient Info & Photos</label>
+                    <input type="text" name="ca_details" placeholder="Name, Age, Gender">
+                    <input type="file" name="ca_photos" multiple accept="image/*">
+
+                    <label>Turnaround Time *</label>
+                    <select name="ca_turnaround" class="pricing-trigger">
+                        <option value="regular">Regular Service (7 Days)</option>
+                        <option value="rush">Rush Order (3 Days) +$1,500</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price & Submit</button>
+                </div>
+
+                <div class="step-container" id="flow_bulk_child">
+                    <h3>Bulk Mini Books (Child)</h3>
+
+                    <label>Book Category *</label>
+                    <select name="bc_category" class="pricing-trigger">
+                        <option value="generic">Generic (Standard)</option>
+                        <option value="custom">Customised (Personalised)</option>
+                    </select>
+
+                    <label>Quantity *</label>
+                    <select name="bc_qty" class="pricing-trigger">
+                        <option value="8">8 Books</option>
+                        <option value="12">12 Books</option>
+                        <option value="24">24 Books</option>
+                        <option value="48">48 Books</option>
+                    </select>
+
+                    <label>Size Upgrade</label>
+                    <select name="bc_size" class="pricing-trigger">
+                        <option value="standard">Standard (4.25" x 5.5")</option>
+                        <option value="large">Large (5.5" x 8.5") - Extra Cost</option>
+                    </select>
+
+                    <label>Add Crayons/Pencils?</label>
+                    <select name="bc_addons" class="pricing-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes (Extra Cost)</option>
+                    </select>
+
+                    <label>Theme</label>
+                    <select name="bc_theme" class="pricing-trigger">
+                        <option value="standard">Standard Theme</option>
+                        <option value="premium">Barbie / Moana / Spiderman / Marvel (+$150)</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select name="bc_turnaround" class="pricing-trigger">
+                        <option value="regular">Regular Service (7 Days)</option>
+                        <option value="rush">Rush Order (3 Days) +$1,500</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price & Submit</button>
+                </div>
+
+                <div class="step-container" id="flow_bulk_adult">
+                    <h3>Bulk Mini Books (Adult)</h3>
+
+                    <label>Package Type *</label>
+                    <select name="ba_type" class="pricing-trigger">
+                        <option value="mandala">Stress Relief / Mandala</option>
+                        <option value="inspirational">Inspirational / Spiritual</option>
+                    </select>
+
+                    <label>Quantity *</label>
+                    <select name="ba_qty" class="pricing-trigger">
+                        <option value="8">8 Books</option>
+                        <option value="12">12 Books</option>
+                        <option value="24">24 Books</option>
+                        <option value="48">48 Books</option>
+                    </select>
+
+                    <label>Size Upgrade</label>
+                    <select name="ba_size" class="pricing-trigger">
+                        <option value="standard">Standard (4.25" x 5.5")</option>
+                        <option value="large">Large (5.5" x 8.5") - Extra Cost</option>
+                    </select>
+
+                    <label>Add Crayons/Pencils?</label>
+                    <select name="ba_addons" class="pricing-trigger">
+                        <option value="no">No</option>
+                        <option value="yes">Yes (Extra Cost)</option>
+                    </select>
+
+                    <label>Turnaround Time *</label>
+                    <select name="ba_turnaround" class="pricing-trigger">
+                        <option value="regular">Regular Service (7 Days)</option>
+                        <option value="rush">Rush Order (3 Days) +$1,500</option>
+                    </select>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="goToReview()">Review Price & Submit</button>
+                </div>
+
+                <div class="step-container" id="review_step">
+                    <h3>Order Summary</h3>
+                    <p>Based on your selections:</p>
+                    
+                    <div style="background: #eef9f8; padding: 20px; border-radius: 10px; border: 2px solid var(--zen-teal); margin-bottom: 20px;">
+                        <span style="display: block; font-size: 0.9rem;">Estimated Total:</span>
+                        <span id="finalPriceDisplay" style="font-size: 2rem; color: var(--zen-teal); font-weight: bold; font-family: 'Fredoka';">$0 JMD</span>
+                    </div>
+
+                    <label>Any final notes or questions?</label>
+                    <textarea name="final_notes" rows="3"></textarea>
+
+                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Edit Order</button>
+                    <button type="submit" class="btn btn-primary">Confirm & Send Order</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ZenDoodle Studios.</p>
+    </footer>
+
+    <script>
+        let currentTotal = 0;
+
+        function nextStep() {
+            // Get selected book type
+            const bookType = document.querySelector('input[name="book_type"]:checked');
+            if (!bookType) { alert("Please select a book type."); return; }
+            
+            // Hide Step 1
+            document.getElementById('step1').classList.remove('active');
+            
+            // Determine which flow to show
+            let nextId = "";
+            const val = bookType.value;
+            
+            if (val === "custom_child_color") nextId = "flow_custom_child_color";
+            else if (val === "custom_adult_color") nextId = "flow_custom_adult_color";
+            else if (val === "custom_child_activity") nextId = "flow_custom_child_activity";
+            else if (val.includes("bulk_child")) nextId = "flow_bulk_child";
+            else if (val === "bulk_adult_color") nextId = "flow_bulk_adult";
+
+            document.getElementById(nextId).classList.add('active');
+            
+            // Update Progress Bar
+            document.getElementById('progressBar').style.width = "50%";
+            document.getElementById('pageNum').innerText = "2";
+            
+            calculatePrice(); // Run initial calc
+        }
+
+        function prevStep() {
+            // Hide all flow steps
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            // Show Step 1
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('progressBar').style.width = "10%";
+            document.getElementById('pageNum').innerText = "1";
+        }
+
+        function goToReview() {
+            calculatePrice();
+            // Hide all
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            // Show Review
+            document.getElementById('review_step').classList.add('active');
+            document.getElementById('progressBar').style.width = "100%";
+            document.getElementById('pageNum').innerText = "Final";
+        }
+
+        // --- PRICING LOGIC ---
+        function calculatePrice() {
+            const bookType = document.querySelector('input[name="book_type"]:checked').value;
+            let price = 0;
+
+            // 1. CUSTOM CHILD COLOURING
+            if (bookType === "custom_child_color") {
+                const pkg = document.querySelector('[name="cc_package"]').value;
+                if (pkg === "10pg") price = 2500;
+                if (pkg === "20pg") price = 3500;
+                if (pkg === "gift") price = 7500;
+
+                const theme = document.querySelector('[name="cc_theme"]').value;
+                const premiums = ["Barbie", "Moana", "Spiderman", "Marvel", "KPop"];
+                if (premiums.includes(theme)) price += 150;
+
+                if (document.querySelector('[name="cc_turnaround"]').value === "rush") price += 1500;
+            }
+
+            // 2. CUSTOM ADULT COLOURING
+            else if (bookType === "custom_adult_color") {
+                const pkg = document.querySelector('[name="ac_package"]').value;
+                if (pkg === "motivational") price = 3500;
+                if (pkg === "gift") price = 8500;
+
+                const theme = document.querySelector('[name="ac_theme"]').value;
+                const premiums = ["Mandala", "Anime", "Kawaii"];
+                if (premiums.includes(theme)) price += 150;
+
+                if (document.querySelector('[name="ac_turnaround"]').value === "rush") price += 1500;
+            }
+
+            // 3. CUSTOM CHILD ACTIVITY
+            else if (bookType === "custom_child_activity") {
+                const charSelect = document.querySelector('[name="ca_char_select"]').value;
+                price = (charSelect === "yes") ? 6000 : 4500;
+
+                if (document.querySelector('[name="ca_packaging"]').value === "yes") price += 1500;
+                
+                const theme = document.querySelector('[name="ca_theme"]').value;
+                if (theme === "premium") price += 150;
+
+                if (document.querySelector('[name="ca_turnaround"]').value === "rush") price += 1500;
+            }
+
+            // 4. BULK CHILD (Mini Colouring OR Activity)
+            else if (bookType.includes("bulk_child")) {
+                const cat = document.querySelector('[name="bc_category"]').value;
+                const qty = parseInt(document.querySelector('[name="bc_qty"]').value);
+                
+                // Matrix Logic
+                let base = 0;
+                if (cat === "generic") {
+                    if(qty==8) base=2500; if(qty==12) base=3000; if(qty==24) base=4000; if(qty==48) base=5000;
+                } else { // Custom
+                    if(qty==8) base=4500; if(qty==12) base=6000; if(qty==24) base=7000; if(qty==48) base=8000;
+                }
+                price = base;
+
+                // Addons
+                const size = document.querySelector('[name="bc_size"]').value;
+                if (size === "large") {
+                    if(qty<=12) price+=1000; else if(qty==24) price+=1500; else price+=2000;
+                }
+
+                const crayons = document.querySelector('[name="bc_addons"]').value;
+                if (crayons === "yes") {
+                    if(qty<=12) price+=500; else if(qty==24) price+=1000; else price+=1500;
+                }
+
+                if (document.querySelector('[name="bc_turnaround"]').value === "rush") price += 1500;
+                
+                if (document.querySelector('[name="bc_theme"]').value === "premium") price += 150;
+            }
+
+            // 5. BULK ADULT
+            else if (bookType === "bulk_adult_color") {
+                const type = document.querySelector('[name="ba_type"]').value;
+                const qty = parseInt(document.querySelector('[name="ba_qty"]').value);
+                
+                let base = 0;
+                if (type === "mandala") {
+                    if(qty==8) base=4500; if(qty==12) base=5500; if(qty==24) base=6500; if(qty==48) base=7500;
+                } else { // Inspirational
+                    if(qty==8) base=5500; if(qty==12) base=6500; if(qty==24) base=7500; if(qty==48) base=8500;
+                }
+                price = base;
+
+                // Addons logic same as child
+                const size = document.querySelector('[name="ba_size"]').value;
+                if (size === "large") {
+                    if(qty<=12) price+=1000; else if(qty==24) price+=1500; else price+=2000;
+                }
+
+                const crayons = document.querySelector('[name="ba_addons"]').value;
+                if (crayons === "yes") {
+                    if(qty<=12) price+=500; else if(qty==24) price+=1000; else price+=1500;
+                }
+
+                if (document.querySelector('[name="ba_turnaround"]').value === "rush") price += 1500;
+            }
+
+            // UPDATE DISPLAY
+            document.getElementById('finalPriceDisplay').innerText = "$" + price.toLocaleString() + " JMD";
+        }
+
+        // Listen for changes to update price in real time
+        document.querySelectorAll('.pricing-trigger').forEach(item => {
+            item.addEventListener('change', calculatePrice);
+        });
+
+    </script>
+</body>
+</html>
