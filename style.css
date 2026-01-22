@@ -1,36 +1,22 @@
-/* --- NEW PHOTO STYLES --- */
-
-/* 1. Standard Photo Styling */
-.photo-rounded {
-    width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(100, 182, 172, 0.15); /* Soft Teal Shadow */
-    transition: transform 0.3s ease;
-}
-.photo-rounded:hover {
-    transform: scale(1.02); /* Subtle zoom on hover */
-}
-
-/* 2. Photo + Text Split Layout (Side by Side) */
-.split-section {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin: 4rem 0;
-}
-.split-text { flex: 1; }
-.split-photo { flex: 1; }
-
-/* Mobile Fix: Stack them on small screens */
-@media (max-width: 768px) {
-    .split-section { flex-direction: column; }
-    .split-section.reverse { flex-direction: column-reverse; } /* Allows swapping order */
-}
-
-/* 3. Photo Gallery Grid (3 photos in a row) */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 2rem;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenDoodle Studios Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS IS INCLUDED HERE TO PREVENT ERRORS */
+        :root { --bg-cream: #FDFBF7; --zen-teal: #64B6AC; --zen-lavender: #7D7098; --zen-dark: #554D60; }
+        body { font-family: 'Quicksand', sans-serif; background-color: var(--bg-cream); color: var(--zen-dark); text-align: center; padding: 50px; }
+        h1 { font-family: 'Fredoka', sans-serif; color: var(--zen-lavender); font-size: 3rem; }
+        .btn { background: var(--zen-teal); color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px;}
+        .blob { width: 300px; height: 300px; background: var(--zen-peach); border-radius: 50%; position: absolute; z-index: -1; filter: blur(60px); opacity: 0.5; }
+    </style>
+</head>
+<body>
+    <h1>It Works!</h1>
+    <p>If you can see this, the code is fine, but the previous upload method was the issue.</p>
+    <a href="#" class="btn">Test Button</a>
+</body>
+</html>
