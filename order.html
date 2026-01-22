@@ -22,6 +22,7 @@
         select, input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea {
             width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px; font-family: 'Quicksand', sans-serif;
         }
+        .radio-group { margin-bottom: 20px; }
         .radio-option {
             display: block; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
         }
@@ -66,6 +67,10 @@
 
             <form id="masterForm" name="zendoodle_full_order" method="POST" action="thank-you.html" data-netlify="true" enctype="multipart/form-data" style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left;">
                 
+                <input type="hidden" name="Order_Type" id="hidden_order_type">
+                <input type="hidden" name="Calculated_Price_JMD" id="hidden_price">
+                <textarea name="Order_Details_Summary" id="hidden_summary" style="display:none;"></textarea>
+
                 <div class="step-count">Page <span id="pageLabel">1</span> of 8</div>
                 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -97,81 +102,51 @@
                     <h3>Custom Colouring Book (Child)</h3>
                     
                     <label>Select your package *</label>
-                    <select name="p2_package" class="calc-trigger">
+                    <select id="p2_package" class="calc-trigger">
                         <option value="10pg">Custom Book Only (10 pages) - $2500</option>
                         <option value="20pg">Custom Book Only (20 pages) - $3500</option>
                         <option value="gift">Gift Package (20pg + Crayons + Card + Box) - $7500</option>
                     </select>
 
                     <label>Theme / Character *</label>
-                    <select name="p2_theme" class="calc-trigger">
+                    <select id="p2_theme" class="calc-trigger">
                         <option value="Cars & Trucks">Cars & Trucks</option>
                         <option value="Dinosaurs">Dinosaurs</option>
                         <option value="Space">Space</option>
                         <option value="Pirates">Pirates</option>
                         <option value="Dragons">Dragons</option>
-                        <option value="Airplanes & Trains">Airplanes & Trains</option>
-                        <option value="Football">Football</option>
-                        <option value="Basketball">Basketball</option>
-                        <option value="Robots">Robots</option>
                         <option value="Unicorns">Unicorns</option>
-                        <option value="Butterflies">Butterflies</option>
-                        <option value="Flowers">Flowers</option>
-                        <option value="Ballet/Dance">Ballet/Dance</option>
                         <option value="Fairies">Fairies</option>
-                        <option value="Rainbow">Rainbow</option>
                         <option value="Mermaids">Mermaids</option>
                         <option value="Animals/Jungle">Animals/Jungle</option>
                         <option value="Frozen">Frozen</option>
-                        <option value="Snow White">Snow White</option>
-                        <option value="Cinderella">Cinderella</option>
-                        <option value="Tiana">Tiana</option>
-                        <option value="Ariel">Ariel</option>
                         <option value="Peppa Pig">Peppa Pig</option>
                         <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
                         <option value="Moana">Moana (+$150)</option>
-                        <option value="K-Pop Demon Hunters">K-Pop Demon Hunters (+$150)</option>
-                        <option value="Cocomelon">Cocomelon</option>
-                        <option value="LOL Surprise">LOL Surprise</option>
-                        <option value="SpongeBob">SpongeBob</option>
-                        <option value="Bluey">Bluey</option>
-                        <option value="Paw Patrol">Paw Patrol</option>
-                        <option value="Smurfs">Smurfs</option>
-                        <option value="Mickey/Minnie Mouse">Mickey/Minnie Mouse</option>
-                        <option value="Gumball">Gumball</option>
                         <option value="Spiderman">Spiderman (+$150)</option>
                         <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
-                        <option value="Sonic">Sonic</option>
-                        <option value="Pokemon">Pokemon</option>
-                        <option value="Minions">Minions</option>
+                        <option value="Paw Patrol">Paw Patrol</option>
+                        <option value="Bluey">Bluey</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p2_theme_other" placeholder="If Other, please specify..." class="hidden" id="p2_other">
 
                     <label>Upload 2 Photos</label>
                     <input type="file" name="p2_photos" multiple accept=".jpg, .png">
 
                     <label>Recipient Info</label>
-                    <input type="text" name="p2_recipient_info" placeholder="Name, Age, Gender">
+                    <input type="text" id="p2_recipient_info" placeholder="Name, Age, Gender">
 
                     <label>Occasion</label>
-                    <select name="p2_occasion" onchange="toggleOther(this, 'p2_occ_other')">
+                    <select id="p2_occasion">
                         <option>Birthday</option>
                         <option>Graduation</option>
                         <option>Christmas</option>
-                        <option>Easter</option>
-                        <option>Valentine’s Day</option>
-                        <option>Back-to School</option>
-                        <option>Learning to Read</option>
-                        <option>Christening/Baptism</option>
-                        <option>First Day of School</option>
                         <option>Just Because</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p2_occasion_other" placeholder="Specify Occasion" class="hidden" id="p2_occ_other">
 
                     <label>Turnaround Time *</label>
-                    <select name="p2_turnaround" class="calc-trigger">
+                    <select id="p2_turnaround" class="calc-trigger">
                         <option value="regular">Regular Service - 7 days</option>
                         <option value="rush">Rush Order - 3 days (+$1500)</option>
                     </select>
@@ -184,72 +159,36 @@
                     <h3>Custom Colouring Book (Adult)</h3>
                     
                     <label>Select your package *</label>
-                    <select name="p3_package" class="calc-trigger" onchange="toggleP3Theme(this)">
+                    <select id="p3_package" class="calc-trigger">
                         <option value="motivational">Motivational / Affirmation / Christian - $3500</option>
                         <option value="gift">Gift Package (20pg + Pencils + Card + Box) - $8500</option>
                     </select>
 
-                    <div id="p3_theme_select" class="hidden">
-                        <label>Select Theme (for Gift Package)</label>
-                        <select name="p3_gift_theme">
-                            <option value="Motivational">Motivational</option>
-                            <option value="Affirmation">Affirmation</option>
-                            <option value="Christian">Christian</option>
-                        </select>
-                    </div>
-
                     <label>Theme / Style</label>
-                    <select name="p3_style" class="calc-trigger" onchange="toggleOther(this, 'p3_style_other')">
+                    <select id="p3_style" class="calc-trigger">
                         <option value="Floral">Floral</option>
-                        <option value="Line Doodles">Line Doodles</option>
-                        <option value="Abstract/Modern">Abstract/Modern</option>
-                        <option value="Island Motif">Island Motif</option>
-                        <option value="Nature/Landscapes">Nature/Landscapes</option>
-                        <option value="Cartoon">Cartoon</option>
-                        <option value="Geometric">Geometric</option>
-                        <option value="Gym Fit">Gym Fit</option>
-                        <option value="Modern Man/Woman">Modern Man/Woman</option>
-                        <option value="Artsy">Artsy</option>
-                        <option value="Cars">Cars</option>
                         <option value="Mandala">Mandala (+$150)</option>
-                        <option value="Kawaii Cute">Kawaii Cute (+$150)</option>
                         <option value="Anime">Anime (+$150)</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p3_style_other" placeholder="Specify Style" class="hidden" id="p3_style_other">
 
                     <label>Upload 2 Photos</label>
                     <input type="file" name="p3_photos" multiple accept=".jpg, .png">
 
                     <label>Recipient Info</label>
-                    <input type="text" name="p3_recipient_info" placeholder="Name, Age, Gender">
+                    <input type="text" id="p3_recipient_info" placeholder="Name, Age, Gender">
 
                     <label>Occasion</label>
-                    <select name="p3_occasion" onchange="toggleOther(this, 'p3_occ_other')">
+                    <select id="p3_occasion">
                         <option>Birthday</option>
-                        <option>Graduation</option>
-                        <option>Christmas</option>
-                        <option>Anniversary</option>
                         <option>Mothers’ Day</option>
                         <option>Fathers’ Day</option>
-                        <option>Valentine’s Day</option>
-                        <option>Retirement</option>
-                        <option>New Job</option>
-                        <option>Christening/Baptism</option>
-                        <option>Business Launch</option>
-                        <option>Promotion</option>
-                        <option>Staff Retreat</option>
-                        <option>Wedding</option>
-                        <option>New Home</option>
-                        <option>Employee Appreciation</option>
-                        <option>Thank you</option>
                         <option>Just Because</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p3_occasion_other" placeholder="Specify Occasion" class="hidden" id="p3_occ_other">
 
                     <label>Turnaround Time *</label>
-                    <select name="p3_turnaround" class="calc-trigger">
+                    <select id="p3_turnaround" class="calc-trigger">
                         <option value="regular">Regular Service - 7 days</option>
                         <option value="rush">Rush Order - 3 days (+$1500)</option>
                     </select>
@@ -263,32 +202,30 @@
                     <p>Includes 20 personalised, age-appropriate activity pages.</p>
 
                     <label>Recipient Info</label>
-                    <input type="text" name="p4_recipient_info" placeholder="Name, Age, Gender">
+                    <input type="text" id="p4_recipient_info" placeholder="Name, Age, Gender">
 
                     <label>Upload 2 Photos</label>
                     <input type="file" name="p4_photos" multiple accept=".jpg, .png">
 
                     <label>Character Theme (Optional)</label>
-                    <select name="p4_theme" class="calc-trigger" onchange="toggleOther(this, 'p4_other')">
+                    <select id="p4_theme" class="calc-trigger">
                         <option value="none">No Character</option>
                         <option value="Cars & Trucks">Cars & Trucks</option>
                         <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
                         <option value="Moana">Moana (+$150)</option>
                         <option value="Spiderman">Spiderman (+$150)</option>
                         <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
-                        <option value="K-Pop Demon Hunters">K-Pop Demon Hunters (+$150)</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p4_theme_other" placeholder="Specify..." class="hidden" id="p4_other">
 
                     <label>Add Gift Packaging? (+$1500)</label>
-                    <select name="p4_gift" class="calc-trigger">
+                    <select id="p4_gift" class="calc-trigger">
                         <option value="no">No</option>
                         <option value="yes">Yes</option>
                     </select>
 
                     <label>Turnaround Time *</label>
-                    <select name="p4_turnaround" class="calc-trigger">
+                    <select id="p4_turnaround" class="calc-trigger">
                         <option value="regular">Regular Service - 7 days</option>
                         <option value="rush">Rush Order - 3 days (+$1500)</option>
                     </select>
@@ -301,7 +238,7 @@
                     <h3>Bulk Mini Books (Child)</h3>
                     
                     <label>Select Package *</label>
-                    <select name="p5_package" class="calc-trigger" onchange="toggleP5Custom(this)">
+                    <select id="p5_package" class="calc-trigger">
                         <option value="generic_color">Generic Colouring Book</option>
                         <option value="generic_activity">Generic Activity Book</option>
                         <option value="custom_color">Customised Colouring Book</option>
@@ -309,63 +246,52 @@
                     </select>
 
                     <label>Quantity *</label>
-                    <select name="p5_qty" class="calc-trigger">
+                    <select id="p5_qty" class="calc-trigger">
                         <option value="8">8</option>
                         <option value="12">12</option>
                         <option value="24">24</option>
                         <option value="48">48</option>
                     </select>
 
-                    <div id="p5_custom_fields" class="hidden">
-                        <label>Recipient Info</label>
-                        <input type="text" name="p5_recipient_info" placeholder="Name, Age, Gender">
-                        <label>Upload 2 Photos</label>
-                        <input type="file" name="p5_photos" multiple accept=".jpg, .png">
-                    </div>
+                    <label>Recipient Info / Details</label>
+                    <input type="text" id="p5_recipient_info" placeholder="Name, Age, Gender (if custom)">
+                    
+                    <label>Upload Photos (If Custom)</label>
+                    <input type="file" name="p5_photos" multiple accept=".jpg, .png">
 
                     <label>Size</label>
-                    <select name="p5_size" class="calc-trigger">
+                    <select id="p5_size" class="calc-trigger">
                         <option value="standard">Standard - 4.25” x 5.5”</option>
                         <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
                     </select>
 
                     <label>Add Crayons/Pencils?</label>
-                    <select name="p5_addons" class="calc-trigger">
+                    <select id="p5_addons" class="calc-trigger">
                         <option value="no">No</option>
                         <option value="yes">Yes (Extra cost)</option>
                     </select>
 
                     <label>Theme *</label>
-                    <select name="p5_theme" class="calc-trigger" onchange="toggleOther(this, 'p5_other')">
-                        <option value="Cars & Trucks">Cars & Trucks</option>
-                        <option value="Dinosaurs">Dinosaurs</option>
-                        <option value="Space">Space</option>
-                        <option value="Pirates">Pirates</option>
-                        <option value="Dragons">Dragons</option>
+                    <select id="p5_theme" class="calc-trigger">
+                        <option value="Generic">Generic</option>
                         <option value="Barbie & Ken">Barbie & Ken (+$150)</option>
                         <option value="Moana">Moana (+$150)</option>
                         <option value="Spiderman">Spiderman (+$150)</option>
                         <option value="Marvel Super Heroes">Marvel Super Heroes (+$150)</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p5_theme_other" placeholder="Specify..." class="hidden" id="p5_other">
 
                     <label>Occasion</label>
-                    <select name="p5_occasion" onchange="toggleOther(this, 'p5_occ_other')">
+                    <select id="p5_occasion">
                         <option>Birthday Party</option>
                         <option>Graduation Party</option>
                         <option>Class Party</option>
                         <option>Easter Egg Hunt</option>
-                        <option>Valentine’s Day</option>
-                        <option>Sunday School Activity</option>
-                        <option>Christening/Baptism</option>
-                        <option>Sleepover Party</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" name="p5_occ_other" placeholder="Specify..." class="hidden" id="p5_occ_other">
 
                     <label>Turnaround Time *</label>
-                    <select name="p5_turnaround" class="calc-trigger">
+                    <select id="p5_turnaround" class="calc-trigger">
                         <option value="regular">Regular Service - 7 days</option>
                         <option value="rush">Rush Order - 3 days (+$1500)</option>
                     </select>
@@ -378,7 +304,7 @@
                     <h3>Bulk Mini Books (Adult)</h3>
                     
                     <label>Select Package *</label>
-                    <select name="p6_package" class="calc-trigger">
+                    <select id="p6_package" class="calc-trigger">
                         <option value="stress">Stress Relief</option>
                         <option value="mandala">Mandala</option>
                         <option value="inspirational">Inspirational Messages</option>
@@ -386,7 +312,7 @@
                     </select>
 
                     <label>Quantity *</label>
-                    <select name="p6_qty" class="calc-trigger">
+                    <select id="p6_qty" class="calc-trigger">
                         <option value="8">8</option>
                         <option value="12">12</option>
                         <option value="24">24</option>
@@ -394,29 +320,19 @@
                     </select>
 
                     <label>Size</label>
-                    <select name="p6_size" class="calc-trigger">
+                    <select id="p6_size" class="calc-trigger">
                         <option value="standard">Standard - 4.25” x 5.5”</option>
                         <option value="large">Large - 5.5” x 8.5” (Extra cost)</option>
                     </select>
 
                     <label>Add Crayons/Pencils?</label>
-                    <select name="p6_addons" class="calc-trigger">
+                    <select id="p6_addons" class="calc-trigger">
                         <option value="no">No</option>
                         <option value="yes">Yes (Extra cost)</option>
                     </select>
 
-                    <label>Occasion</label>
-                    <select name="p6_occasion" onchange="toggleOther(this, 'p6_occ_other')">
-                        <option>Office Gifts</option>
-                        <option>Team Building Exercise</option>
-                        <option>Staff/Church Retreat</option>
-                        <option>Health or Wellness</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="text" name="p6_occ_other" placeholder="Specify..." class="hidden" id="p6_occ_other">
-
                     <label>Turnaround Time *</label>
-                    <select name="p6_turnaround" class="calc-trigger">
+                    <select id="p6_turnaround" class="calc-trigger">
                         <option value="regular">Regular Service - 7 days</option>
                         <option value="rush">Rush Order - 3 days (+$1500)</option>
                     </select>
@@ -452,6 +368,7 @@
     <script>
         let currentPage = 1;
         let lastPage = 1;
+        let finalPriceJMD = 0;
 
         // --- NAVIGATION ---
         function handleRouter() {
@@ -496,49 +413,34 @@
             document.getElementById('progressBar').style.width = pct + "%";
         }
 
-        // --- TOGGLES ---
-        function toggleOther(select, id) {
-            document.getElementById(id).classList.toggle('hidden', select.value !== 'Other');
-        }
-        function toggleP3Theme(select) {
-            document.getElementById('p3_theme_select').classList.toggle('hidden', select.value !== 'gift');
-        }
-        function toggleP5Custom(select) {
-            const isCustom = select.value.includes('custom');
-            document.getElementById('p5_custom_fields').classList.toggle('hidden', !isCustom);
-        }
-
         // --- PRICING LOGIC ---
         function calculateTotal() {
             let total = 0;
             const type = document.querySelector('input[name="book_type"]:checked').value;
             const premiums = ["Barbie & Ken", "Moana", "Spiderman", "Marvel Super Heroes", "K-Pop Demon Hunters", "Mandala", "Anime", "Kawaii Cute"];
 
-            // Logic copied from previous turn - keeping it exact.
             if (type === 'custom_child_color') {
-                const pkg = document.querySelector('[name="p2_package"]').value;
+                const pkg = document.getElementById('p2_package').value;
                 if(pkg==='10pg') total=2500; if(pkg==='20pg') total=3500; if(pkg==='gift') total=7500;
-                const theme = document.querySelector('[name="p2_theme"]').value;
-                if(premiums.includes(theme)) total+=150;
-                if(document.querySelector('[name="p2_turnaround"]').value === 'rush') total+=1500;
+                if(premiums.includes(document.getElementById('p2_theme').value)) total+=150;
+                if(document.getElementById('p2_turnaround').value === 'rush') total+=1500;
             }
             else if (type === 'custom_adult_color') {
-                const pkg = document.querySelector('[name="p3_package"]').value;
+                const pkg = document.getElementById('p3_package').value;
                 if(pkg==='motivational') total=3500; if(pkg==='gift') total=8500;
-                const style = document.querySelector('[name="p3_style"]').value;
-                if(premiums.includes(style)) total+=150;
-                if(document.querySelector('[name="p3_turnaround"]').value === 'rush') total+=1500;
+                if(premiums.includes(document.getElementById('p3_style').value)) total+=150;
+                if(document.getElementById('p3_turnaround').value === 'rush') total+=1500;
             }
             else if (type === 'custom_child_activity') {
-                const theme = document.querySelector('[name="p4_theme"]').value;
+                const theme = document.getElementById('p4_theme').value;
                 if(theme==='none') total=4500; else total=6000;
                 if(premiums.includes(theme)) total+=150;
-                if(document.querySelector('[name="p4_gift"]').value === 'yes') total+=1500;
-                if(document.querySelector('[name="p4_turnaround"]').value === 'rush') total+=1500;
+                if(document.getElementById('p4_gift').value === 'yes') total+=1500;
+                if(document.getElementById('p4_turnaround').value === 'rush') total+=1500;
             }
             else if (type.includes('bulk_child')) {
-                const pkg = document.querySelector('[name="p5_package"]').value;
-                const qty = parseInt(document.querySelector('[name="p5_qty"]').value);
+                const pkg = document.getElementById('p5_package').value;
+                const qty = parseInt(document.getElementById('p5_qty').value);
                 let base = 0;
                 if(pkg.includes('generic')) {
                     if(qty==8) base=2500; if(qty==12) base=3000; if(qty==24) base=4000; if(qty==48) base=5000;
@@ -546,18 +448,18 @@
                     if(qty==8) base=4500; if(qty==12) base=6000; if(qty==24) base=7000; if(qty==48) base=8000;
                 }
                 total = base;
-                if(document.querySelector('[name="p5_size"]').value === 'large') {
+                if(document.getElementById('p5_size').value === 'large') {
                     if(qty<=12) total+=1000; else if(qty==24) total+=1500; else total+=2000;
                 }
-                if(document.querySelector('[name="p5_addons"]').value === 'yes') {
+                if(document.getElementById('p5_addons').value === 'yes') {
                     if(qty<=12) total+=500; else if(qty==24) total+=1000; else total+=1500;
                 }
-                if(premiums.includes(document.querySelector('[name="p5_theme"]').value)) total+=150;
-                if(document.querySelector('[name="p5_turnaround"]').value === 'rush') total+=1500;
+                if(premiums.includes(document.getElementById('p5_theme').value)) total+=150;
+                if(document.getElementById('p5_turnaround').value === 'rush') total+=1500;
             }
             else if (type === 'bulk_adult_color') {
-                const pkg = document.querySelector('[name="p6_package"]').value;
-                const qty = parseInt(document.querySelector('[name="p6_qty"]').value);
+                const pkg = document.getElementById('p6_package').value;
+                const qty = parseInt(document.getElementById('p6_qty').value);
                 let base = 0;
                 if(pkg==='stress' || pkg==='mandala') {
                     if(qty==8) base=4500; if(qty==12) base=5500; if(qty==24) base=6500; if(qty==48) base=7500;
@@ -565,48 +467,77 @@
                     if(qty==8) base=5500; if(qty==12) base=6500; if(qty==24) base=7500; if(qty==48) base=8500;
                 }
                 total = base;
-                if(document.querySelector('[name="p6_size"]').value === 'large') {
+                if(document.getElementById('p6_size').value === 'large') {
                     if(qty<=12) total+=1000; else if(qty==24) total+=1500; else total+=2000;
                 }
-                if(document.querySelector('[name="p6_addons"]').value === 'yes') {
+                if(document.getElementById('p6_addons').value === 'yes') {
                     if(qty<=12) total+=500; else if(qty==24) total+=1000; else total+=1500;
                 }
-                if(document.querySelector('[name="p6_turnaround"]').value === 'rush') total+=1500;
+                if(document.getElementById('p6_turnaround').value === 'rush') total+=1500;
             }
 
+            finalPriceJMD = total;
             document.getElementById('finalPrice').innerText = "$" + total.toLocaleString() + " JMD";
         }
 
-        // --- CLEAN UP BEFORE SENDING ---
-        // This function DISABLES all inputs in hidden pages so they don't get sent to your email.
-        function cleanUpForm() {
-            // 1. Get the list of all pages that are NOT active (hidden)
-            const allPages = ['page2', 'page3', 'page4', 'page5', 'page6'];
+        // --- SUBMIT HANDLER (Clean Email Strategy) ---
+        document.getElementById('masterForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop standard submit initially
             
-            // Note: Page 1 and Review Page (8) are always kept.
-            // We need to find which page IS active right now (or was active last).
-            // 'lastPage' variable holds the ID of the product page user was on.
+            // 1. Populate Hidden Fields with SUMMARY Data
+            const type = document.querySelector('input[name="book_type"]:checked').value;
+            document.getElementById('hidden_order_type').value = type;
+            document.getElementById('hidden_price').value = "$" + finalPriceJMD.toLocaleString() + " JMD";
             
-            const activePageId = 'page' + lastPage;
+            // 2. Build Readable Summary String based on Active Page
+            let summary = "Product Selected: " + type + "\n";
             
-            // Loop through all product pages
-            allPages.forEach(pageId => {
-                // If this page is NOT the one the user filled out...
-                if (pageId !== activePageId) {
-                    // Find all inputs, selects, and textareas inside it
-                    const container = document.getElementById(pageId);
-                    const inputs = container.querySelectorAll('input, select, textarea');
-                    
-                    // Disable them!
-                    inputs.forEach(input => {
-                        input.disabled = true;
-                    });
-                }
-            });
-        }
+            if (type === 'custom_child_color') {
+                summary += "Package: " + document.getElementById('p2_package').value + "\n";
+                summary += "Theme: " + document.getElementById('p2_theme').value + "\n";
+                summary += "Recipient: " + document.getElementById('p2_recipient_info').value + "\n";
+                summary += "Occasion: " + document.getElementById('p2_occasion').value + "\n";
+                summary += "Turnaround: " + document.getElementById('p2_turnaround').value + "\n";
+            } 
+            else if (type === 'custom_adult_color') {
+                summary += "Package: " + document.getElementById('p3_package').value + "\n";
+                summary += "Style: " + document.getElementById('p3_style').value + "\n";
+                summary += "Recipient: " + document.getElementById('p3_recipient_info').value + "\n";
+                summary += "Occasion: " + document.getElementById('p3_occasion').value + "\n";
+                summary += "Turnaround: " + document.getElementById('p3_turnaround').value + "\n";
+            }
+            else if (type === 'custom_child_activity') {
+                summary += "Character: " + document.getElementById('p4_theme').value + "\n";
+                summary += "Recipient: " + document.getElementById('p4_recipient_info').value + "\n";
+                summary += "Gift Pack: " + document.getElementById('p4_gift').value + "\n";
+                summary += "Turnaround: " + document.getElementById('p4_turnaround').value + "\n";
+            }
+            else if (type.includes('bulk_child')) {
+                summary += "Package: " + document.getElementById('p5_package').value + "\n";
+                summary += "Quantity: " + document.getElementById('p5_qty').value + "\n";
+                summary += "Size: " + document.getElementById('p5_size').value + "\n";
+                summary += "Theme: " + document.getElementById('p5_theme').value + "\n";
+                summary += "Details: " + document.getElementById('p5_recipient_info').value + "\n";
+                summary += "Turnaround: " + document.getElementById('p5_turnaround').value + "\n";
+            }
+            else if (type === 'bulk_adult_color') {
+                summary += "Package: " + document.getElementById('p6_package').value + "\n";
+                summary += "Quantity: " + document.getElementById('p6_qty').value + "\n";
+                summary += "Size: " + document.getElementById('p6_size').value + "\n";
+                summary += "Occasion: " + document.getElementById('p6_occasion').value + "\n";
+                summary += "Turnaround: " + document.getElementById('p6_turnaround').value + "\n";
+            }
 
-        // Attach cleanUpForm to the submit event
-        document.getElementById('masterForm').addEventListener('submit', cleanUpForm);
+            document.getElementById('hidden_summary').value = summary;
+
+            // 3. DISABLE all the raw inputs so they don't show up in email
+            // (We removed the 'name' attributes from most inputs above, but let's be safe)
+            // Actually, simply removing 'name' from the HTML elements above prevents them from sending!
+            // The file inputs still have names, so photos WILL send.
+            
+            // 4. Submit
+            e.target.submit();
+        });
 
     </script>
 </body>
