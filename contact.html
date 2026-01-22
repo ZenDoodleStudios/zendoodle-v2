@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Order | ZenDoodle Studios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="blob-container"><div class="blob b1"></div></div>
+
+    <nav>
+        <a href="index.html"><img src="assets/logo.jpg" alt="ZenDoodle Logo" class="brand-logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="products.html">Products</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html" style="color: var(--zen-teal);">Contact</a>
+            <a href="contact.html" class="nav-cta">Order Now</a>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="contact-wrapper">
+            <h2>Let’s Create Together</h2>
+            <p>Ready to create? Chat with us directly or fill out the form below to get a quote.</p>
+            
+            <div style="margin-bottom: 30px;">
+                <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios!%20I%20was%20browsing%20your%20website%20and%20need%20some%20more%20information." target="_blank" rel="noopener" class="btn btn-primary">WhatsApp Us</a>
+                
+                <a href="mailto:zendoodlestudios@outlook.com" class="btn btn-secondary">Email Us</a>
+            </div>
+
+            <form name="zendoodle-inquiry" method="POST" data-netlify="true" style="text-align: left; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <label>Your Name</label>
+                <input type="text" name="name" required>
+                
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+                
+                <label>What are you interested in?</label>
+                <select name="interest" required>
+                    <option value="" disabled selected>Select an option...</option>
+                    <option>Custom Activity Book</option>
+                    <option>Bulk Mini Books (Parties)</option>
+                    <option>Other / Question</option>
+                </select>
+
+                <label>Message / Details</label>
+                <textarea name="message" rows="4" placeholder="Tell us about your theme, date, or any questions!" required></textarea>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Request</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
+    </footer>
+
+</body>
+</html>

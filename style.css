@@ -1,0 +1,36 @@
+/* --- NEW PHOTO STYLES --- */
+
+/* 1. Standard Photo Styling */
+.photo-rounded {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(100, 182, 172, 0.15); /* Soft Teal Shadow */
+    transition: transform 0.3s ease;
+}
+.photo-rounded:hover {
+    transform: scale(1.02); /* Subtle zoom on hover */
+}
+
+/* 2. Photo + Text Split Layout (Side by Side) */
+.split-section {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin: 4rem 0;
+}
+.split-text { flex: 1; }
+.split-photo { flex: 1; }
+
+/* Mobile Fix: Stack them on small screens */
+@media (max-width: 768px) {
+    .split-section { flex-direction: column; }
+    .split-section.reverse { flex-direction: column-reverse; } /* Allows swapping order */
+}
+
+/* 3. Photo Gallery Grid (3 photos in a row) */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 2rem;
+}
