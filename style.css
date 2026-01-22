@@ -103,6 +103,13 @@ nav {
 .product-card:hover { transform: translateY(-5px); border-color: var(--zen-teal); box-shadow: var(--shadow); }
 .tag { background: var(--zen-peach); padding: 5px 12px; border-radius: 10px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 15px; }
 
+/* Detail Lists in Products */
+.detail-box { text-align: left; margin-top: 15px; font-size: 0.95rem; }
+.detail-box h5 { color: var(--zen-teal); margin-top: 15px; margin-bottom: 5px; font-size: 1rem; font-family: 'Fredoka', sans-serif; }
+.detail-box ul { padding-left: 20px; margin-bottom: 10px; }
+.detail-box li { margin-bottom: 5px; color: var(--zen-dark); }
+.sub-text { font-size: 0.9rem; color: #666; margin-top: 5px; }
+
 /* =========================================
    8. FORMS & CONTACT
    ========================================= */
@@ -135,11 +142,38 @@ footer {
     color: var(--zen-peach); font-size: 1.2rem; font-weight: bold;
     display: flex; flex-direction: column; align-items: center; gap: 5px;
 }
-.footer-icon-link span { font-size: 1.8rem; } /* Icon size */
+.footer-icon-link span { font-size: 1.8rem; }
 .footer-icon-link:hover { color: white; transform: scale(1.1); }
 .footer-phone { font-size: 1.2rem; font-weight: bold; color: var(--white); margin-bottom: 10px; display: block;}
 
+/* =========================================
+   11. LARGE BACKGROUND MASCOT (NEW)
+   ========================================= */
+.mascot-bg {
+    position: absolute;
+    width: 600px; /* Large Size */
+    height: auto;
+    bottom: -5%;   
+    right: -5%;
+    opacity: 0.15; /* Very faded */
+    z-index: -1;   /* Behind text */
+    transform: rotate(-10deg);
+    pointer-events: none; 
+    animation: floatMascot 20s infinite alternate ease-in-out;
+}
+
+@keyframes floatMascot {
+    0% { transform: translateY(0) rotate(-10deg) scale(1); }
+    100% { transform: translateY(-40px) rotate(-5deg) scale(1.05); }
+}
+
 @media (max-width: 768px) {
+    .mascot-bg {
+        width: 350px;
+        bottom: 0;
+        right: -80px;
+        opacity: 0.1;
+    }
     h1 { font-size: 2.5rem; }
     .nav-links { display: none; }
     .hero { padding-top: 3rem; }
