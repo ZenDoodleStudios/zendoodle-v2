@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Your Order | ZenDoodle Studios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* SMART FORM STYLES */
+        .form-section { display: none; animation: fadeIn 0.4s ease; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee; }
+        .form-section.active { display: block; }
+        
+        .price-box {
+            background: #eef9f8; 
+            border: 2px solid var(--zen-teal); 
+            color: var(--zen-dark);
+            padding: 15px; 
+            border-radius: 10px; 
+            text-align: center; 
+            margin-top: 20px;
+            font-weight: bold;
+            display: none; 
+        }
+        .price-display { font-size: 1.5rem; color: var(--zen-teal); font-family: 'Fredoka', sans-serif; display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="blob-container">
+        <div class="blob b1"></div>
+        <div class="floating-icon i3">🖍️</div>
+        <img src="assets/mascot.jpg" alt="" class="mascot-bg">
+    </div>
+
+    <nav>
+        <a href="index.html"><img src="assets/logo.jpg" alt="ZenDoodle Logo" class="brand-logo"></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="products.html">Products</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+            <a href="order.html" class="nav-cta">Order Now</a>
+        </div>
+    </nav>
+
+    <section class="section">
+        <div class="contact-wrapper">
+            <h2>Start Your Order</h2>
+            <p>Tell us what you need, and we'll calculate an estimate for you!</p>
+            
+            <form name="zendoodle-smart-order" method="POST" data-netlify="true" enctype="multipart/form-data" style="text-align: left; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                
+                <h3 style="font-size: 1.2rem; margin-bottom: 15px;">1. Your Details</h3>
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Your Name" required>
+                
+                <label>Email</label>
+                <input type="email" name="email" placeholder="email@address.com" required>
+                
+                <label>WhatsApp / Phone</label>
+                <input type="tel" name="phone" placeholder="(876) ..." required>
+
+                <h3 style="font-size: 1.2rem; margin-top: 25px; margin-bottom: 15px;">2. Choose Product</h3>
+                <label>I am interested in:</label>
+                <select name="product" id="productSelector" onchange="updateForm()" required>
+                    <option value="" disabled selected>Select an option...</option>
+                    <option value="custom_book">Custom Activity Book (Single)</option>
+                    <option value="bulk_minis">Bulk Mini Books (Parties)</option>
+                </select>
+
+                <div id="customSection" class="form-section">
+                    <h4 style="color: var(--zen-teal);">🎨 Custom Book Details</h4>
+                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Base Price: $3,500 JMD</p>
+
+                    <label>Book Star's Name</label>
+                    <input type="text" name="star_name" placeholder="Child's Name">
+
+                    <label>Reference Photo</label>
+                    <p style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">Upload a clear photo to generate the character.</p>
+                    <input type="file" name="photo" accept="image/*" style="background: #f9f9f9; padding: 10px;">
+
+                    <label>Theme</label>
+                    <input type="text" name="custom_theme" placeholder="e.g. Princess, Spiderman, Dinosaurs...">
+                </div>
+
+                <div id="bulkSection" class="form-section">
+                    <h4 style="color: var(--zen-teal);">🎉 Bulk Party Details</h4>
+                    <p style="font-size: 0.85
