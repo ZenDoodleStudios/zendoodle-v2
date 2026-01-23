@@ -125,7 +125,7 @@
                 </div>
 
                 <label>Full Name *</label>
-                <input type="text" name="Full_Name" required placeholder="Jane Doe">
+                <input type="text" name="Full_Name" required placeholder="Trojean Burrell">
 
                 <label>Email Address *</label>
                 <input type="email" name="Email" required placeholder="name@example.com">
@@ -151,8 +151,8 @@
                 <select name="Child_Col_Package" class="pricing-trigger" required>
                     <option value="">-- Select --</option>
                     <option value="10pg">Custom Book Only (10 pages) - $2500</option>
-                    <option value="20pg">Custom Book Only (20 pages) - $3500</option>
-                    <option value="gift">Gift Package (20pg + Pencils + Box) - $7500</option>
+                    <option value="20pg">Custom Book Only (20 pages) - $4000</option>
+                    <option value="gift">Gift Package (20pg + Pencils + Box) - $6500</option>
                 </select>
 
                 <label>Theme / Character</label>
@@ -244,10 +244,10 @@
 
                 <label>Select Package *</label>
                 <select name="Adult_Col_Package" class="pricing-trigger" required onchange="toggleConditional(this, 'gift', 'adult_gift_theme_wrap')">
-                    <option value="Motivational">Motivational - $3500</option>
-                    <option value="Affirmation">Affirmation - $3500</option>
-                    <option value="Christian">Christian - $3500</option>
-                    <option value="gift">Gift Package (20pg + Box) - $8500</option>
+                    <option value="Motivational">Motivational - $4500</option>
+                    <option value="Affirmation">Affirmation - $4500</option>
+                    <option value="Christian">Christian - $4500</option>
+                    <option value="gift">Gift Package (20pg + Box) - $6500</option>
                 </select>
 
                 <div id="adult_gift_theme_wrap" class="conditional-input">
@@ -347,7 +347,7 @@
 
                 <label>Theme / Character (Optional)</label>
                 <select name="Child_Act_Theme" class="pricing-trigger" onchange="toggleOther(this, 'other_child_act_theme')">
-                    <option value="None">None - Standard ($4500)</option>
+                    <option value="None">None - Standard ($4000)</option>
                     <option value="Cars & Trucks">Cars & Trucks</option>
                     <option value="Dinosaurs">Dinosaurs</option>
                     <option value="Space">Space</option>
@@ -387,7 +387,7 @@
                     <option value="Sonic">Sonic</option>
                     <option value="Pokemon">Pokemon</option>
                     <option value="Minions">Minions</option>
-                    <option value="Other">Other Character (Base $6000)</option>
+                    <option value="Other">Other Character (Base $5500)</option>
                 </select>
                 <input type="text" id="other_child_act_theme" name="Child_Act_Theme_Other" class="conditional-input" placeholder="Describe theme...">
 
@@ -584,7 +584,7 @@
 
     <footer>
         <div class="footer-icons">
-            <a href="https://wa.me/18768124295" target="_blank" class="footer-icon-link"><span>💬</span> WhatsApp</a>
+            <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios.%20I%20was%20visiting%20your%20website%20and%20I%20need%20some%20more%20information." target="_blank" class="footer-icon-link"><span>💬</span> WhatsApp</a>
             <a href="https://instagram.com/zendoodlestudios" target="_blank" class="footer-icon-link"><span>📸</span> Instagram</a>
             <a href="mailto:zendoodlestudios@outlook.com" class="footer-icon-link"><span>✉️</span> Email</a>
         </div>
@@ -714,38 +714,53 @@
 
         function calculatePrice() {
             let price = 0;
+            // --- 1. CHILD COLOURING ---
             if (activeFlowIndex === 1) { 
                 const pkg = document.querySelector('select[name="Child_Col_Package"]').value;
                 if (pkg === '10pg') price = 2500;
-                if (pkg === '20pg') price = 3500;
-                if (pkg === 'gift') price = 7500;
+                if (pkg === '20pg') price = 4000;  /* UPDATED PRICE */
+                if (pkg === 'gift') price = 6500;  /* UPDATED PRICE */
+                
                 const theme = document.querySelector('select[name="Child_Col_Theme"]').value;
                 if (["Barbie & Ken", "Moana", "Spiderman", "Marvel Super Heroes", "K-Pop Demon Hunters"].includes(theme)) price += 150;
+                
                 if (document.querySelector('select[name="Child_Col_Turnaround"]').value === 'rush') price += 1500;
-            } else if (activeFlowIndex === 2) {
+            } 
+            // --- 2. ADULT COLOURING ---
+            else if (activeFlowIndex === 2) {
                 const pkg = document.querySelector('select[name="Adult_Col_Package"]').value;
-                if (['Motivational','Affirmation','Christian'].includes(pkg)) price = 3500;
-                if (pkg === 'gift') price = 8500;
+                if (['Motivational','Affirmation','Christian'].includes(pkg)) price = 4500; /* UPDATED PRICE */
+                if (pkg === 'gift') price = 6500; /* UPDATED PRICE */
+                
                 const style = document.querySelector('select[name="Adult_Col_Style"]').value;
                 if (['Mandala', 'Kawaii Cute', 'Anime'].includes(style)) price += 150;
+                
                 if (document.querySelector('select[name="Adult_Col_Turnaround"]').value === 'rush') price += 1500;
-            } else if (activeFlowIndex === 3) {
+            } 
+            // --- 3. CHILD ACTIVITY ---
+            else if (activeFlowIndex === 3) {
                 const theme = document.querySelector('select[name="Child_Act_Theme"]').value;
-                if (theme === 'None') price = 4500; else price = 6000;
+                if (theme === 'None') price = 4000; else price = 5500; /* UPDATED BASE PRICES */
+                
                 if (["Spiderman", "Moana", "Barbie & Ken", "K-Pop Demon Hunters", "Marvel Super Heroes"].includes(theme)) price += 150;
-                if (document.querySelector('select[name="Child_Act_Add_Gift"]').value === 'yes') price += 1500;
+                if (document.querySelector('select[name="Child_Act_Add_Gift"]').value === 'yes') price += 1500; /* UPDATED LOGIC */
                 if (document.querySelector('select[name="Child_Act_Turnaround"]').value === 'rush') price += 1500;
-            } else if (activeFlowIndex === 4) {
+            } 
+            // --- 4. BULK MINI CHILD ---
+            else if (activeFlowIndex === 4) {
                 const pkg = document.querySelector('select[name="Bulk_Child_Package"]').value;
                 const qty = parseInt(document.querySelector('select[name="Bulk_Child_Qty"]').value || 0);
                 const isCustom = pkg.includes('Customised');
                 let base = 0;
+                // Price Table Logic
                 if(!isCustom) {
                     if(qty==8) base=2500; else if(qty==12) base=3000; else if(qty==24) base=4000; else if(qty==48) base=5000;
                 } else {
                     if(qty==8) base=4500; else if(qty==12) base=6000; else if(qty==24) base=7000; else if(qty==48) base=8000;
                 }
                 price += base;
+                
+                // Add-ons
                 if(document.querySelector('select[name="Bulk_Child_Size"]').value === 'Large') {
                     if(qty <= 12) price += 1000; else if(qty == 24) price += 1500; else if(qty == 48) price += 2000;
                 }
@@ -753,19 +768,24 @@
                     if(qty <= 12) price += 500; else if(qty == 24) price += 1000; else if(qty == 48) price += 1500;
                 }
                 if (document.querySelector('select[name="Bulk_Child_Turnaround"]').value === 'rush') price += 1500;
+                
                 const theme = document.querySelector('select[name="Bulk_Child_Theme"]').value;
-                if (["Spiderman"].includes(theme)) price += 150;
-            } else if (activeFlowIndex === 5) {
+                if (["Spiderman", "Moana", "Barbie & Ken", "K-Pop Demon Hunters", "Marvel Super Heroes"].includes(theme)) price += 150;
+            } 
+            // --- 5. BULK MINI ADULT ---
+            else if (activeFlowIndex === 5) {
                 const pkg = document.querySelector('select[name="Bulk_Adult_Package"]').value;
                 const qty = parseInt(document.querySelector('select[name="Bulk_Adult_Qty"]').value || 0);
                 const isGeneric = ['Stress Relief', 'Mandala'].includes(pkg);
                 let base = 0;
+                // Price Table Logic
                 if(isGeneric) {
                     if(qty==8) base=4500; else if(qty==12) base=5500; else if(qty==24) base=6500; else if(qty==48) base=7500;
                 } else {
                     if(qty==8) base=5500; else if(qty==12) base=6500; else if(qty==24) base=7500; else if(qty==48) base=8500;
                 }
                 price += base;
+                
                 if(document.querySelector('select[name="Bulk_Adult_Size"]').value === 'Large') {
                     if(qty <= 12) price += 1000; else if(qty == 24) price += 1500; else if(qty == 48) price += 2000;
                 }
@@ -789,7 +809,6 @@
                     const inputs = step.querySelectorAll('input, select, textarea');
                     inputs.forEach(input => {
                         input.removeAttribute('required');
-                        // Also clear value to avoid confusion? No, user said send everything.
                     });
                 } else {
                     // This is the ACTIVE step. 
