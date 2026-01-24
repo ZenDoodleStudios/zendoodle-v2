@@ -6,6 +6,7 @@
     <title>Create Your ZenDoodle Book | ZenDoodle Studios</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
     
     <style>
         /* --- FORM STYLES --- */
@@ -55,13 +56,24 @@
         .radio-group label:hover { border-color: var(--zen-teal); background: white; }
         .radio-group input { margin-right: 15px; width: auto; transform: scale(1.2); }
         
-        /* Error state for radios */
+        /* Checkbox Group for Notepads */
+        .checkbox-group label {
+            display: block; margin-bottom: 8px; cursor: pointer; font-weight: normal;
+        }
+        .checkbox-group input { margin-right: 10px; transform: scale(1.1); }
+
+        /* Error state */
         .radio-group.error label { border-color: #ff6f61; background: #fff0f0; }
+
+        /* Helper Text */
+        .helper-text { font-size: 0.85rem; color: #666; margin-bottom: 5px; display: block; line-height: 1.4; }
+        .helper-text strong { font-weight: 700; color: #444; }
+        .helper-text em { font-style: italic; }
 
         /* Conditional Inputs */
         .conditional-input { display: none; margin-top: 10px; border-left: 3px solid var(--zen-teal); padding-left: 10px; }
 
-        /* Flex Layout for Age/Gender */
+        /* Flex Layout */
         .flex-row { display: flex; gap: 15px; }
         .flex-col { flex: 1; }
 
@@ -101,13 +113,12 @@
 
     <section class="section">
         <div style="text-align: center; max-width: 800px; margin: 0 auto 30px auto;">
-            <h1>Create your ZenDoodle Book</h1>
-            <p>Bring your imagination to life with a one-of-a-kind colouring book made just for you!</p>
-            <p>Whether it’s for a birthday, school, event, or personal keepsake — we’ll turn your photos, art, or theme ideas into a beautiful custom book.</p>
+            <h1>Create your ZenDoodle Order</h1>
+            <p>Bring your imagination to life with a one-of-a-kind colouring book or notepad made just for you!</p>
             <p><strong>✨ Please fill out the form below to get started.</strong></p>
             
             <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 10px; border: 1px dashed var(--zen-teal); font-size: 0.9rem; display: inline-block; margin-top: 10px;">
-                If you don't see an option that works for you, if you need customised packages, or for general assistance, contact us at <a href="https://wa.me/18768124295" target="_blank" style="color: var(--zen-teal); font-weight: bold;">(876) 812 - 4295</a>
+                If you don't see an option that works for you, contact us at <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios.%20I%20was%20visiting%20your%20website%20and%20I%20would%20like%20some%20more%20information" target="_blank" style="color: var(--zen-teal); font-weight: bold;">(876) 812 - 4295</a>
             </div>
         </div>
 
@@ -121,7 +132,7 @@
 
             <div class="step-container active" id="step-1">
                 <div style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-size: 0.9rem; margin-bottom: 20px;">
-                    <strong>Note:</strong> Custom books are 8.5" x 11". Mini books are 4.25" x 5.5".
+                    <strong>Note:</strong> Custom books are 8.5" x 11". Notepads are 5.5" x 8.5". Mini books are 4.25" x 5.5".
                 </div>
 
                 <label>Full Name *</label>
@@ -133,8 +144,9 @@
                 <label>Phone Number *</label>
                 <input type="tel" name="Phone" required placeholder="(876) 555-0123">
 
-                <label>What type of book would you like to create? *</label>
+                <label>What would you like to create? *</label>
                 <div class="radio-group" id="bookTypeGroup">
+                    <label><input type="radio" name="Book_Type" value="Custom Notepads for Adults"> <strong>Custom Notepads for Adults</strong> &nbsp;(NEW!)</label>
                     <label><input type="radio" name="Book_Type" value="Custom Colouring Book - Child"> Custom Colouring Book - Child</label>
                     <label><input type="radio" name="Book_Type" value="Custom Colouring Book - Adult"> Custom Colouring Book - Adult</label>
                     <label><input type="radio" name="Book_Type" value="Custom Activity Book - Child"> Custom Activity Book - Child</label>
@@ -144,12 +156,63 @@
                 </div>
             </div>
 
+            <div class="step-container" id="step-custom-notepad">
+                <h3>Custom Notepads for Adults</h3>
+                
+                <label>Select your binding option: *</label>
+                <span class="helper-text"><em><strong>Custom notepads are 5.5" x 8.5", 50 pages per pad</strong></em></span>
+                <select name="Notepad_Binding" class="pricing-trigger" required>
+                    <option value="Glued">Custom Notepad - Glued (Tear-Off)</option>
+                    <option value="Spiral">Custom Notepad - Spiral-Bound</option>
+                </select>
+
+                <label>Type (select up to two): *</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="Notepad_Type" class="notepad-type-cb" value="To-do list"> To-do list</label>
+                    <label><input type="checkbox" name="Notepad_Type" class="notepad-type-cb" value="Daily Planner"> Daily Planner/Schedule Planner</label>
+                    <label><input type="checkbox" name="Notepad_Type" class="notepad-type-cb" value="Notes"> Notes (Open Format)</label>
+                    <label><input type="checkbox" name="Notepad_Type" class="notepad-type-cb" value="Goal Planner"> Goal Planner</label>
+                </div>
+
+                <label>Recipient Name *</label>
+                <input type="text" name="Notepad_Recipient_Name" required>
+
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <label>Recipient Age *</label>
+                        <input type="text" name="Notepad_Recipient_Age" required>
+                    </div>
+                    <div class="flex-col">
+                        <label>Colour Preference (Optional)</label>
+                        <input type="text" name="Notepad_Colour_Pref">
+                    </div>
+                </div>
+
+                <label>Photo</label>
+                <span class="helper-text">Upload up to two photos of the recipient for customisation</span>
+                <input type="file" name="Notepad_Photos" multiple accept=".jpg, .png">
+
+                <label>Quantity *</label>
+                <span class="helper-text"><em><strong>Contact us for bulk/corporate orders.</strong></em></span>
+                <select name="Notepad_Qty" class="pricing-trigger" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+
+                <label>Turnaround time: *</label>
+                <span class="helper-text">The standard turnaround time for all orders is seven (7) business days. Rush orders can be completed in three (3) days, but will attract an additional cost of JMD $1500.00.</span>
+                <select name="Notepad_Turnaround" class="pricing-trigger" required>
+                    <option value="regular">Regular Service - 7 days</option>
+                    <option value="rush">Rush Order - 3 days</option>
+                </select>
+            </div>
+
             <div class="step-container" id="step-child-custom-col">
                 <h3>Child Custom Colouring Book</h3>
                 
                 <label>Select Package *</label>
                 <select name="Child_Col_Package" class="pricing-trigger" required>
-                    <option value="">-- Select --</option>
                     <option value="10pg">Custom Book Only (10 pages) - $2500</option>
                     <option value="20pg">Custom Book Only (20 pages) - $4000</option>
                     <option value="gift">Gift Package (20pg + Pencils + Box) - $6500</option>
@@ -560,7 +623,6 @@
                 </select>
                 <input type="text" id="other_bulk_adult_occ" name="Bulk_Adult_Occasion_Other" class="conditional-input" placeholder="Describe occasion...">
 
-
                 <label>Turnaround Time *</label>
                 <select name="Bulk_Adult_Turnaround" class="pricing-trigger" required>
                     <option value="regular">Regular Service - 7 days</option>
@@ -584,7 +646,7 @@
 
     <footer>
         <div class="footer-icons">
-            <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios.%20I%20was%20visiting%20your%20website%20and%20I%20need%20some%20more%20information." target="_blank" class="footer-icon-link"><span>💬</span> WhatsApp</a>
+            <a href="https://wa.me/18768124295?text=Hi%20ZenDoodle%20Studios.%20I%20was%20visiting%20your%20website%20and%20I%20would%20like%20some%20more%20information" target="_blank" class="footer-icon-link"><span>💬</span> WhatsApp</a>
             <a href="https://instagram.com/zendoodlestudios" target="_blank" class="footer-icon-link"><span>📸</span> Instagram</a>
             <a href="mailto:zendoodlestudios@outlook.com" class="footer-icon-link"><span>✉️</span> Email</a>
         </div>
@@ -596,6 +658,18 @@
         let currentTab = 0; 
         const steps = document.getElementsByClassName("step-container");
         let activeFlowIndex = 0; 
+
+        // Enforce 2 checkbox limit
+        const limitCheckboxes = document.querySelectorAll('.notepad-type-cb');
+        limitCheckboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                const checkedCount = document.querySelectorAll('.notepad-type-cb:checked').length;
+                if (checkedCount > 2) {
+                    this.checked = false;
+                    alert("You can select a maximum of two types.");
+                }
+            });
+        });
 
         showTab(currentTab);
 
@@ -633,11 +707,12 @@
                 }
                 const bookType = selectedRadio.value;
                 
-                if(bookType === 'Custom Colouring Book - Child') { activeFlowIndex = 1; currentTab = 1; }
-                else if(bookType === 'Custom Colouring Book - Adult') { activeFlowIndex = 2; currentTab = 2; }
-                else if(bookType === 'Custom Activity Book - Child') { activeFlowIndex = 3; currentTab = 3; }
-                else if(bookType.includes('Bulk Mini') && bookType.includes('Child')) { activeFlowIndex = 4; currentTab = 4; }
-                else if(bookType.includes('Bulk Mini') && bookType.includes('Adult')) { activeFlowIndex = 5; currentTab = 5; }
+                if(bookType === 'Custom Notepads for Adults') { activeFlowIndex = 6; currentTab = 1; }
+                else if(bookType === 'Custom Colouring Book - Child') { activeFlowIndex = 1; currentTab = 2; }
+                else if(bookType === 'Custom Colouring Book - Adult') { activeFlowIndex = 2; currentTab = 3; }
+                else if(bookType === 'Custom Activity Book - Child') { activeFlowIndex = 3; currentTab = 4; }
+                else if(bookType.includes('Bulk Mini') && bookType.includes('Child')) { activeFlowIndex = 4; currentTab = 5; }
+                else if(bookType.includes('Bulk Mini') && bookType.includes('Adult')) { activeFlowIndex = 5; currentTab = 6; }
                 
                 showTab(currentTab);
                 calculatePrice();
@@ -659,7 +734,6 @@
             const inputs = currentDiv.querySelectorAll("input[required], select[required]");
             
             inputs.forEach(input => {
-                // If visible and empty, invalid
                 if (input.value === "" && input.offsetParent !== null) { 
                     input.style.border = "1px solid red";
                     valid = false;
@@ -714,45 +788,45 @@
 
         function calculatePrice() {
             let price = 0;
-            // --- 1. CHILD COLOURING ---
+            // 1. CHILD COLOURING
             if (activeFlowIndex === 1) { 
                 const pkg = document.querySelector('select[name="Child_Col_Package"]').value;
                 if (pkg === '10pg') price = 2500;
-                if (pkg === '20pg') price = 4000;  /* UPDATED PRICE */
-                if (pkg === 'gift') price = 6500;  /* UPDATED PRICE */
+                if (pkg === '20pg') price = 4000; 
+                if (pkg === 'gift') price = 6500; 
                 
                 const theme = document.querySelector('select[name="Child_Col_Theme"]').value;
                 if (["Barbie & Ken", "Moana", "Spiderman", "Marvel Super Heroes", "K-Pop Demon Hunters"].includes(theme)) price += 150;
                 
                 if (document.querySelector('select[name="Child_Col_Turnaround"]').value === 'rush') price += 1500;
             } 
-            // --- 2. ADULT COLOURING ---
+            // 2. ADULT COLOURING
             else if (activeFlowIndex === 2) {
                 const pkg = document.querySelector('select[name="Adult_Col_Package"]').value;
-                if (['Motivational','Affirmation','Christian'].includes(pkg)) price = 4500; /* UPDATED PRICE */
-                if (pkg === 'gift') price = 6500; /* UPDATED PRICE */
+                if (['Motivational','Affirmation','Christian'].includes(pkg)) price = 4500;
+                if (pkg === 'gift') price = 6500;
                 
                 const style = document.querySelector('select[name="Adult_Col_Style"]').value;
                 if (['Mandala', 'Kawaii Cute', 'Anime'].includes(style)) price += 150;
                 
                 if (document.querySelector('select[name="Adult_Col_Turnaround"]').value === 'rush') price += 1500;
             } 
-            // --- 3. CHILD ACTIVITY ---
+            // 3. CHILD ACTIVITY
             else if (activeFlowIndex === 3) {
                 const theme = document.querySelector('select[name="Child_Act_Theme"]').value;
-                if (theme === 'None') price = 4000; else price = 5500; /* UPDATED BASE PRICES */
+                if (theme === 'None') price = 4000; else price = 5500;
                 
                 if (["Spiderman", "Moana", "Barbie & Ken", "K-Pop Demon Hunters", "Marvel Super Heroes"].includes(theme)) price += 150;
-                if (document.querySelector('select[name="Child_Act_Add_Gift"]').value === 'yes') price += 1500; /* UPDATED LOGIC */
+                if (document.querySelector('select[name="Child_Act_Add_Gift"]').value === 'yes') price += 1500;
                 if (document.querySelector('select[name="Child_Act_Turnaround"]').value === 'rush') price += 1500;
             } 
-            // --- 4. BULK MINI CHILD ---
+            // 4. BULK MINI CHILD
             else if (activeFlowIndex === 4) {
                 const pkg = document.querySelector('select[name="Bulk_Child_Package"]').value;
                 const qty = parseInt(document.querySelector('select[name="Bulk_Child_Qty"]').value || 0);
                 const isCustom = pkg.includes('Customised');
                 let base = 0;
-                // Price Table Logic
+                
                 if(!isCustom) {
                     if(qty==8) base=2500; else if(qty==12) base=3000; else if(qty==24) base=4000; else if(qty==48) base=5000;
                 } else {
@@ -760,7 +834,6 @@
                 }
                 price += base;
                 
-                // Add-ons
                 if(document.querySelector('select[name="Bulk_Child_Size"]').value === 'Large') {
                     if(qty <= 12) price += 1000; else if(qty == 24) price += 1500; else if(qty == 48) price += 2000;
                 }
@@ -772,13 +845,13 @@
                 const theme = document.querySelector('select[name="Bulk_Child_Theme"]').value;
                 if (["Spiderman", "Moana", "Barbie & Ken", "K-Pop Demon Hunters", "Marvel Super Heroes"].includes(theme)) price += 150;
             } 
-            // --- 5. BULK MINI ADULT ---
+            // 5. BULK MINI ADULT
             else if (activeFlowIndex === 5) {
                 const pkg = document.querySelector('select[name="Bulk_Adult_Package"]').value;
                 const qty = parseInt(document.querySelector('select[name="Bulk_Adult_Qty"]').value || 0);
                 const isGeneric = ['Stress Relief', 'Mandala'].includes(pkg);
                 let base = 0;
-                // Price Table Logic
+                
                 if(isGeneric) {
                     if(qty==8) base=4500; else if(qty==12) base=5500; else if(qty==24) base=6500; else if(qty==48) base=7500;
                 } else {
@@ -794,25 +867,37 @@
                 }
                 if (document.querySelector('select[name="Bulk_Adult_Turnaround"]').value === 'rush') price += 1500;
             }
+            // 6. CUSTOM NOTEPADS (NEW)
+            else if (activeFlowIndex === 6) {
+                const binding = document.querySelector('select[name="Notepad_Binding"]').value;
+                const qty = parseInt(document.querySelector('select[name="Notepad_Qty"]').value || 0);
+                
+                if(binding === 'Glued') {
+                    if(qty === 1) price = 2000;
+                    else if(qty === 2) price = 4000;
+                    else if(qty === 3) price = 5700;
+                } else if(binding === 'Spiral') {
+                    if(qty === 1) price = 2500;
+                    else if(qty === 2) price = 5000;
+                    else if(qty === 3) price = 7125;
+                }
+
+                if (document.querySelector('select[name="Notepad_Turnaround"]').value === 'Rush') price += 1500;
+            }
 
             document.getElementById('display-price').innerText = "JMD $" + price.toLocaleString();
             document.getElementById('hidden_total_price').value = price;
         }
 
-        // --- SUBMISSION FIX: Remove 'required' from hidden fields ---
         function prepareSubmission() {
-            // Find all inactive steps
             const allSteps = document.querySelectorAll('.step-container');
             allSteps.forEach(step => {
                 if(!step.classList.contains('active')) {
-                    // Remove 'required' from all inputs in hidden steps
                     const inputs = step.querySelectorAll('input, select, textarea');
                     inputs.forEach(input => {
                         input.removeAttribute('required');
                     });
                 } else {
-                    // This is the ACTIVE step. 
-                    // But check nested hidden fields (e.g. "Other" text box)
                     const hiddenNested = step.querySelectorAll('.conditional-input');
                     hiddenNested.forEach(div => {
                         if(getComputedStyle(div).display === 'none') {
@@ -821,7 +906,6 @@
                     });
                 }
             });
-            // Browser continues to submit...
         }
     </script>
 </body>
