@@ -414,3 +414,51 @@ footer {
   border-radius: 24px;
   box-shadow: var(--shadow);
 }
+/* HOME PAGE HERO FIX */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  padding: 4rem 5%;
+  max-width: 1300px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.hero-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.hero-highlights span,
+.hero-highlights .highlight-item {
+  background: white;
+  color: var(--zen-teal);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 3rem 5%;
+  }
+
+  .hero-highlights {
+    justify-content: center;
+  }
+}
