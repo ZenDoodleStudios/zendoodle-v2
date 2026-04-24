@@ -175,175 +175,186 @@
     const BASE_ID = "app1XdNCXjmox6lTZ";
     const TABLE_NAME = "Products";
 
-    const productGrid = document.getElementById("productGrid");
-    const catalogStatus = document.getElementById("catalogStatus");
+    <script>
+const productGrid = document.getElementById("productGrid");
+const catalogStatus = document.getElementById("catalogStatus");
 
-    function safeText(value) {
-        return value === undefined || value === null ? "" : String(value);
+function safeText(value) {
+    return value === undefined || value === null ? "" : String(value);
+}
+
+function getProductImage(product) {
+    if (product.Image && Array.isArray(product.Image) && product.Image.length > 0 && product.Image[0].url) {
+        return product.Image[0].url;
+    }
+    return "";
+}
+
+function createProductCard(product) {
+    const name = safeText(product["Product Name"] || product.Name || "Product");
+    const price = safeText(product.Price);
+    const category = safeText(product.Category);
+    const description = safeText(product.Description);
+    const image = getProductImage(product);
+
+    const card = document.createElement("div");
+    card.className = "catalog-product-card";
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", `View details for ${name}`);
+
+    const img = document.createElement("img");
+    img.src = image || "assets/logo.jpg";
+    img.alt = name;
+
+    const content = document.createElement("div");
+    content.className = "catalog-product-content";
+
+    if (category) {
+        const categoryEl = document.createElement("span");
+        categoryEl.className = "catalog-category";
+        categoryEl.textContent = category;
+        content.appendChild(categoryEl);
     }
 
-    function getProductImage(product) {
-        if (product.Image && Array.isArray(product.Image) && product.Image.length > 0 && product.Image[0].url) {
-            return product.Image[0].url;
-        }
-        return "";
-    }
+    const titleEl = document.createElement("h3");
+    titleEl.textContent = name;
 
-    function createProductCard(product) {
-        const name = safeText(product["Product Name"] || product.Name || "Product");
-        const price = safeText(product.Price);
-        const category = safeText(product.Category);
-        const description = safeText(product.Description);
-        const image = getProductImage(product);
+    const priceEl = document.createElement("p");
+    priceEl.className = "catalog-price";
+    priceEl.textContent = price;
 
-        const card = document.createElement("div");
-        card.className = "catalog-product-card";
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
-        card.setAttribute("aria-label", `View details for ${name}`);
+    content.appendChild(titleEl);
+    content.appendChild(priceEl);
 
-        const img = document.createElement("img");
-        img.src = image || "assets/logo.jpg";
-        img.alt = name;
+    card.appendChild(img);
+    card.appendChild(content);
 
-        const content = document.createElement("div");
-        content.className = "catalog-product-content";
+    card.addEventListener("click", function () {
+        openProduct(name, image, price, description);
+    });
 
-        if (category) {
-            const categoryEl = document.createElement("span");
-            categoryEl.className = "catalog-category";
-            categoryEl.textContent = category;
-            content.appendChild(categoryEl);
-        }
-
-        const titleEl = document.createElement("h3");
-        titleEl.textContent = name;
-
-        const priceEl = document.createElement("p");
-        priceEl.className = "catalog-price";
-        priceEl.textContent = price;
-
-        content.appendChild(titleEl);
-        content.appendChild(priceEl);
-
-        card.appendChild(img);
-        card.appendChild(content);
-
-        card.addEventListener("click", function () {
+    card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
             openProduct(name, image, price, description);
-        });
+        }
+    });
 
-        card.addEventListener("keydown", function (event) {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openProduct(name, image, price, description);
+    return card;
+}
+
+async function loadProducts() {
+    if (!API_KEY) {
+        catalogStatus.textContent = "Products are not loading because the Airtable token has not been added yet.";
+        return;
+    }
+
+    const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}?pageSize=100`;
+
+    try {
+        const response = await fetch(airtableUrl, {
+            headers: {
+                Authorization: `Bearer ${API_KEY}`
             }
         });
 
-        return card;
-    }
+        const data = await response.json();
 
-    async function loadProducts() {
-        if (!API_KEY || API_KEY === "patnSZqYR4SJEu9db.29c84e7bfd4c27eb00d5ae196b04d5674beaf4a6dd413af8aa2100b2473c15d3") {
-            catalogStatus.textContent = "Products are not loading because the Airtable token has not been added yet.";
+        if (!response.ok) {
+            console.error("Airtable error:", data);
+            catalogStatus.textContent = "Products could not load. Please check your Airtable token, base access, and table name.";
             return;
         }
 
-        const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}?pageSize=100`;
+        productGrid.innerHTML = "";
 
-        try {
-            const response = await fetch(airtableUrl, {
-                headers: {
-                    Authorization: `Bearer ${API_KEY}`
-                }
-            });
+        if (!data.records || data.records.length === 0) {
+            productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No products are available yet.</p>';
+            return;
+        }
 
-            const data = await response.json();
+        const groupedProducts = {};
 
-            if (!response.ok) {
-                console.error("Airtable error:", data);
-                catalogStatus.textContent = "Products could not load. Please check your Airtable token, base access, and table name.";
-                return;
+        data.records.forEach(function (record) {
+            const product = record.fields || {};
+            const category = product.Category || "Other";
+
+            if (!groupedProducts[category]) {
+                groupedProducts[category] = [];
             }
 
-            productGrid.innerHTML = "";
+            groupedProducts[category].push(product);
+        });
 
-const groupedProducts = {};
+        Object.keys(groupedProducts).forEach(function (category) {
+            const section = document.createElement("div");
+            section.className = "category-section";
+            section.style.gridColumn = "1 / -1";
 
-data.records.forEach((record) => {
-  const product = record.fields || {};
-  const category = product.Category || "Other";
+            const title = document.createElement("h2");
+            title.className = "category-title";
+            title.textContent = category;
 
-  if (!groupedProducts[category]) {
-    groupedProducts[category] = [];
-  }
+            const grid = document.createElement("div");
+            grid.className = "product-grid";
 
-  groupedProducts[category].push(product);
+            groupedProducts[category].forEach(function (product) {
+                grid.appendChild(createProductCard(product));
+            });
+
+            section.appendChild(title);
+            section.appendChild(grid);
+            productGrid.appendChild(section);
+        });
+
+    } catch (error) {
+        console.error("Error loading products:", error);
+        catalogStatus.textContent = "Products could not load. Please refresh the page or check your Airtable setup.";
+    }
+}
+
+function openProduct(name, image, price, desc) {
+    const modal = document.getElementById("productModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalDesc = document.getElementById("modalDesc");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+
+    modalImage.src = image || "assets/logo.jpg";
+    modalImage.alt = name || "Product image";
+    modalTitle.textContent = name || "Product";
+    modalPrice.textContent = price || "";
+    modalDesc.textContent = desc || "Contact us for more details about this product.";
+
+    const message = encodeURIComponent(
+        `Hi ZenDoodle Studios! I'd like to order or ask about:\n\nProduct: ${name}\nPrice: ${price}\n\nPlease let me know the next steps.`
+    );
+
+    whatsappBtn.href = `https://wa.me/18768124295?text=${message}`;
+
+    modal.style.display = "flex";
+    modal.setAttribute("aria-hidden", "false");
+}
+
+function closeModal() {
+    const modal = document.getElementById("productModal");
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+}
+
+document.getElementById("productModal").addEventListener("click", function(event) {
+    if (event.target === this) {
+        closeModal();
+    }
 });
 
-Object.keys(groupedProducts).forEach((category) => {
-  const section = document.createElement("div");
-  section.className = "category-section";
-  section.style.gridColumn = "1 / -1";
-
-  const title = document.createElement("h2");
-  title.className = "category-title";
-  title.textContent = category;
-
-  const grid = document.createElement("div");
-  grid.className = "product-grid";
-
-  groupedProducts[category].forEach((product) => {
-    grid.appendChild(createProductCard(product));
-  });
-
-  section.appendChild(title);
-  section.appendChild(grid);
-  productGrid.appendChild(section);
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+    }
 });
 
-    function openProduct(name, image, price, desc) {
-        const modal = document.getElementById("productModal");
-        const modalImage = document.getElementById("modalImage");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalPrice = document.getElementById("modalPrice");
-        const modalDesc = document.getElementById("modalDesc");
-        const whatsappBtn = document.getElementById("whatsappBtn");
-
-        modalImage.src = image || "assets/logo.jpg";
-        modalImage.alt = name || "Product image";
-        modalTitle.textContent = name || "Product";
-        modalPrice.textContent = price || "";
-        modalDesc.textContent = desc || "Contact us for more details about this product.";
-
-        const message = encodeURIComponent(
-            `Hi ZenDoodle Studios! I'd like to order or ask about:\n\nProduct: ${name}\nPrice: ${price}\n\nPlease let me know the next steps.`
-        );
-        whatsappBtn.href = `https://wa.me/18768124295?text=${message}`;
-
-        modal.style.display = "flex";
-        modal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeModal() {
-        const modal = document.getElementById("productModal");
-        modal.style.display = "none";
-        modal.setAttribute("aria-hidden", "true");
-    }
-
-    document.getElementById("productModal").addEventListener("click", function(event) {
-        if (event.target === this) {
-            closeModal();
-        }
-    });
-
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Escape") {
-            closeModal();
-        }
-    });
-
-    loadProducts();
-    </script>
-</body>
-</html>
+loadProducts();
+</script>
