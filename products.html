@@ -267,13 +267,7 @@
             }
 
             productGrid.innerHTML = "";
-
-            if (!data.records || data.records.length === 0) {
-                productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No products are available yet.</p>';
-                return;
-            }
-
-           const grouped = {};
+             const groupedProducts = {};
 
 data.records.forEach(record => {
   const product = record.fields || {};
