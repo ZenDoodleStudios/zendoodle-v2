@@ -196,5 +196,37 @@ fetch(url, {
   });
 });
 </script>
+    <div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    
+    <img id="modalImage" src="" />
+    <h2 id="modalTitle"></h2>
+    <p id="modalPrice"></p>
+    <p id="modalDesc"></p>
+
+    <a id="whatsappBtn" target="_blank" class="btn btn-primary">
+      Order via WhatsApp
+    </a>
+  </div>
+</div>
+    <script>
+function openProduct(name, image, price, desc) {
+  document.getElementById("modalImage").src = image;
+  document.getElementById("modalTitle").innerText = name;
+  document.getElementById("modalPrice").innerText = price;
+  document.getElementById("modalDesc").innerText = desc;
+
+  const message = encodeURIComponent(`Hi! I'm interested in ${name}`);
+  document.getElementById("whatsappBtn").href = 
+    `https://wa.me/18768124295?text=${message}`;
+
+  document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("productModal").style.display = "none";
+}
+</script>
 </body>
 </html>
