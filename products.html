@@ -273,14 +273,45 @@
                 return;
             }
 
-            data.records.forEach((record) => {
-                productGrid.appendChild(createProductCard(record.fields || {}));
-            });
-        } catch (error) {
-            console.error("Error loading products:", error);
-            catalogStatus.textContent = "Products could not load. Please refresh the page or check your Airtable setup.";
-        }
-    }
+           const grouped = {};
+
+data.records.forEach(record => {
+  const product = record.fields || {};
+  const category = product.Category || "Other";
+
+  if (!grouped[category]) {
+    grouped[category] = [];
+  }
+
+  grouped[category].push(product);
+});
+
+productGrid.innerHTML = "";
+
+// Loop categories
+Object.keys(grouped).forEach(category => {
+
+  // Create category section
+  const section = document.createElement("div");
+  section.style.gridColumn = "1 / -1"; // full width
+
+  const title = document.createElement("h2");
+  title.textContent = category;
+  title.style.marginTop = "40px";
+
+  const grid = document.createElement("div");
+  grid.className = "product-grid";
+
+  // Add products to category
+  grouped[category].forEach(product => {
+    grid.appendChild(createProductCard(product));
+  });
+
+  section.appendChild(title);
+  section.appendChild(grid);
+
+  productGrid.appendChild(section);
+});
 
     function openProduct(name, image, price, desc) {
         const modal = document.getElementById("productModal");
