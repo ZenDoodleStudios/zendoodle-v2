@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GF5FWL2GDW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-GF5FWL2GDW');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GF5FWL2GDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GF5FWL2GDW');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products | ZenDoodle Studios</title>
@@ -40,8 +39,8 @@
     <section class="section" style="padding-bottom: 0; text-align: center;">
         <h1>Products</h1>
         <p>Explore our custom and ready-to-buy offerings.</p>
+
         <div class="product-grid">
-                 
             <div class="product-card mini-product-card">
                 <div>
                     <span class="tag">Best Seller</span>
@@ -66,7 +65,7 @@
                 <a href="order.html" class="btn btn-primary" style="width: 100%;">Order Custom Colouring Book</a>
             </div>
 
-<div class="product-card">
+            <div class="product-card mini-product-card">
                 <div>
                     <span class="tag" style="background: var(--zen-teal); color: white;">New Product</span>
                     <h3>Custom Adult Notepads</h3>
@@ -81,14 +80,14 @@
                         <h5>Options:</h5>
                         <ul>
                             <li><strong>Binding:</strong> Tear-off (Glued) or Spiral Bound</li>
-                            <li><strong>Size:</strong> 5.5" x 8.5" (50 pages)</li>
+                            <li><strong>Size:</strong> 5.5&quot; x 8.5&quot; (50 pages)</li>
                         </ul>
                     </div>
                 </div>
                 <a href="order.html" class="btn btn-primary" style="width: 100%;">Order Notepads</a>
             </div>
 
-            <div class="product-card">
+            <div class="product-card mini-product-card">
                 <div>
                     <span class="tag">Ready-to-Buy</span>
                     <h3>Colouring & Storybooks on Amazon</h3>
@@ -127,7 +126,7 @@
                 <a href="order.html" class="btn btn-primary" style="width: 100%;">Order Now</a>
             </div>
 
-            <div class="product-card" style="background-color: #f9fdfd;">
+            <div class="product-card mini-product-card" style="background-color: #f9fdfd;">
                 <div>
                     <span class="tag" style="background-color: #e0e0e0; color: #555;">Coming Soon</span>
                     <h3 style="color: #888;">Custom Canvas Prints</h3>
@@ -136,15 +135,16 @@
                 </div>
                 <a href="https://wa.me/18768124295?text=CANVAS" target="_blank" class="btn btn-secondary" style="width: 100%;">Join the Canvas Waitlist</a>
             </div>
-            </div>
-
         </div>
-        <h2 style="margin-top: 60px;">Shop Ready-Made Products</h2>
-<p style="text-align: center; max-width: 600px; margin: 0 auto 30px;">
-Browse our ready-to-buy items below. Contact us via WhatsApp to order or customize.
-</p>
 
-<div class="product-grid" id="productGrid"></div>
+        <div class="catalog-intro">
+            <h2>Shop Ready-Made Products</h2>
+            <p>Browse our ready-to-buy items below. Click any product to view details, then contact us via WhatsApp to order or customize.</p>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <p id="catalogStatus" style="grid-column: 1 / -1; text-align: center;">Loading products...</p>
+        </div>
     </section>
 
     <footer>
@@ -156,87 +156,166 @@ Browse our ready-to-buy items below. Contact us via WhatsApp to order or customi
         <span class="footer-phone">📞 1 (876) 812 - 4295</span>
         <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
     </footer>
+
+    <!-- Product popup modal -->
+    <div id="productModal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-btn" type="button" onclick="closeModal()" aria-label="Close product details">&times;</button>
+            <img id="modalImage" src="" alt="">
+            <h2 id="modalTitle"></h2>
+            <p id="modalPrice" class="catalog-price"></p>
+            <p id="modalDesc" class="catalog-desc"></p>
+            <a id="whatsappBtn" target="_blank" class="btn btn-primary">Order via WhatsApp</a>
+        </div>
+    </div>
+
     <script>
-const API_KEY = "pat88hCP9L9pvykJD.1cd2cd00daf30cc4c30d61f3ea2c665a2407bdd7833e8427bd47873cbad6a24e";
-const BASE_ID = "app1XdNCXjmox6lTZ";
-const TABLE_NAME = "Products";
+    const API_KEY = "PASTE_YOUR_NEW_AIRTABLE_TOKEN_HERE";
+    const BASE_ID = "app1XdNCXjmox6lTZ";
+    const TABLE_NAME = "Products";
 
-const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+    const productGrid = document.getElementById("productGrid");
+    const catalogStatus = document.getElementById("catalogStatus");
 
-fetch(url, {
-  headers: {
-    Authorization: `Bearer ${API_KEY}`
-  }
-})
-.then(res => res.json())
-.then(data => {
-  const grid = document.getElementById("productGrid");
+    function safeText(value) {
+        return value === undefined || value === null ? "" : String(value);
+    }
 
-  data.records.forEach(record => {
-    const product = record.fields;
-    const image = product.Image ? product.Image[0].url : "";
+    function getProductImage(product) {
+        if (product.Image && Array.isArray(product.Image) && product.Image.length > 0 && product.Image[0].url) {
+            return product.Image[0].url;
+        }
+        return "";
+    }
 
- const card = document.createElement("div");
-card.className = "catalog-product-card";
+    function createProductCard(product) {
+        const name = safeText(product["Product Name"] || product.Name || "Product");
+        const price = safeText(product.Price);
+        const category = safeText(product.Category);
+        const description = safeText(product.Description);
+        const image = getProductImage(product);
 
-card.innerHTML = `
-  <img src="${image}" alt="${product["Product Name"] || "Product"}" />
+        const card = document.createElement("div");
+        card.className = "catalog-product-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `View details for ${name}`);
 
-  <div class="catalog-product-content">
-    <span class="catalog-category">${product.Category || ""}</span>
-    <h3>${product["Product Name"] || ""}</h3>
-    <p class="catalog-price">${product.Price || ""}</p>
-  </div>
-`;
+        const img = document.createElement("img");
+        img.src = image || "assets/logo.jpg";
+        img.alt = name;
 
-card.addEventListener("click", () => {
-  openProduct(
-    product["Product Name"] || "",
-    image || "",
-    product.Price || "",
-    product.Description || ""
-  );
-});
+        const content = document.createElement("div");
+        content.className = "catalog-product-content";
 
-grid.appendChild(card);
-`;
-    `;
+        const categoryEl = document.createElement("span");
+        categoryEl.className = "catalog-category";
+        categoryEl.textContent = category;
 
-    grid.innerHTML += card;
-  });
-});
-</script>
-    <div id="productModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    
-    <img id="modalImage" src="" />
-    <h2 id="modalTitle"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalDesc"></p>
+        const titleEl = document.createElement("h3");
+        titleEl.textContent = name;
 
-    <a id="whatsappBtn" target="_blank" class="btn btn-primary">
-      Order via WhatsApp
-    </a>
-  </div>
-</div>
-    <script>
-function openProduct(name, image, price, desc) {
-  document.getElementById("modalImage").src = image;
-  document.getElementById("modalTitle").innerText = name;
-  document.getElementById("modalPrice").innerText = price;
-  document.getElementById("modalDesc").innerText = desc;
+        const priceEl = document.createElement("p");
+        priceEl.className = "catalog-price";
+        priceEl.textContent = price;
 
-  const message = encodeURIComponent(`Hi! I'm interested in ${name}`);
-  document.getElementById("whatsappBtn").href = 
-    `https://wa.me/18768124295?text=${message}`;
+        content.appendChild(categoryEl);
+        content.appendChild(titleEl);
+        content.appendChild(priceEl);
+        card.appendChild(img);
+        card.appendChild(content);
 
-  document.getElementById("productModal").style.display = "flex";
-}
+        const open = () => openProduct(name, image || "assets/logo.jpg", price, description);
+        card.addEventListener("click", open);
+        card.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                open();
+            }
+        });
 
-function closeModal() {
-  document.getElementById("productModal").style.display = "none";
-}
-</script>
+        return card;
+    }
+
+    async function loadProducts() {
+        if (!API_KEY || API_KEY === "patbbWtq2yJawt46S.6600e6b3981c39a3e697cd1bd793264c59f153421b9a9993fa121cb3c11963dc") {
+            catalogStatus.textContent = "Products are not loading because the Airtable token has not been added yet.";
+            return;
+        }
+
+        const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}?pageSize=100`;
+
+        try {
+            const response = await fetch(airtableUrl, {
+                headers: {
+                    Authorization: `Bearer ${API_KEY}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Airtable error:", data);
+                catalogStatus.textContent = "Products could not load. Please check your Airtable token, base access, and table name.";
+                return;
+            }
+
+            productGrid.innerHTML = "";
+
+            if (!data.records || data.records.length === 0) {
+                productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No products are available yet.</p>';
+                return;
+            }
+
+            data.records.forEach((record) => {
+                productGrid.appendChild(createProductCard(record.fields || {}));
+            });
+        } catch (error) {
+            console.error("Error loading products:", error);
+            catalogStatus.textContent = "Products could not load. Please refresh the page or check your Airtable setup.";
+        }
+    }
+
+    function openProduct(name, image, price, desc) {
+        const modal = document.getElementById("productModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalPrice = document.getElementById("modalPrice");
+        const modalDesc = document.getElementById("modalDesc");
+        const whatsappBtn = document.getElementById("whatsappBtn");
+
+        modalImage.src = image || "assets/logo.jpg";
+        modalImage.alt = name || "Product image";
+        modalTitle.textContent = name || "Product";
+        modalPrice.textContent = price || "";
+        modalDesc.textContent = desc || "Contact us for more details about this product.";
+
+        const message = encodeURIComponent(`Hi ZenDoodle Studios! I'm interested in ${name}. Can you share more details?`);
+        whatsappBtn.href = `https://wa.me/18768124295?text=${message}`;
+
+        modal.style.display = "flex";
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("productModal");
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.getElementById("productModal").addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+
+    loadProducts();
+    </script>
 </body>
 </html>
