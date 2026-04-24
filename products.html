@@ -267,43 +267,38 @@
             }
 
             productGrid.innerHTML = "";
-             const groupedProducts = {};
 
-data.records.forEach(record => {
+const groupedProducts = {};
+
+data.records.forEach((record) => {
   const product = record.fields || {};
   const category = product.Category || "Other";
 
-  if (!grouped[category]) {
-    grouped[category] = [];
+  if (!groupedProducts[category]) {
+    groupedProducts[category] = [];
   }
 
-  grouped[category].push(product);
+  groupedProducts[category].push(product);
 });
 
-productGrid.innerHTML = "";
-
-// Loop categories
-Object.keys(grouped).forEach(category => {
-
-  // Create category section
+Object.keys(groupedProducts).forEach((category) => {
   const section = document.createElement("div");
-  section.style.gridColumn = "1 / -1"; // full width
+  section.className = "category-section";
+  section.style.gridColumn = "1 / -1";
 
   const title = document.createElement("h2");
+  title.className = "category-title";
   title.textContent = category;
-  title.style.marginTop = "40px";
 
   const grid = document.createElement("div");
   grid.className = "product-grid";
 
-  // Add products to category
-  grouped[category].forEach(product => {
+  groupedProducts[category].forEach((product) => {
     grid.appendChild(createProductCard(product));
   });
 
   section.appendChild(title);
   section.appendChild(grid);
-
   productGrid.appendChild(section);
 });
 
