@@ -297,3 +297,33 @@ footer {
         height: 220px;
     }
 }
+/* Smaller product cards beside each other */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
+
+.mini-product-card {
+    padding: 25px;
+    min-height: auto;
+}
+
+.mini-product-card .detail-box {
+    font-size: 0.9rem;
+}
+
+.mini-product-card h3 {
+    font-size: 1.35rem;
+}
+
+.mini-product-card p,
+.mini-product-card li {
+    font-size: 0.9rem;
+}
+
+.mini-product-card .btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+}
