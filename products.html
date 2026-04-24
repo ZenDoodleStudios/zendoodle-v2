@@ -170,7 +170,7 @@
     </div>
 
     <script>
-    const API_KEY = "patbbWtq2yJawt46S.ac2c39e4a4f9eec23d7d8d721673cb255fa0822bef64a67d6f5e01f4745eee64";
+    const API_KEY = "PASTE_YOUR_NEW_AIRTABLE_TOKEN_HERE";
     const BASE_ID = "app1XdNCXjmox6lTZ";
     const TABLE_NAME = "Products";
 
@@ -208,9 +208,12 @@
         const content = document.createElement("div");
         content.className = "catalog-product-content";
 
-        const categoryEl = document.createElement("span");
-        categoryEl.className = "catalog-category";
-        categoryEl.textContent = category;
+        if (category) {
+            const categoryEl = document.createElement("span");
+            categoryEl.className = "catalog-category";
+            categoryEl.textContent = category;
+            content.appendChild(categoryEl);
+        }
 
         const titleEl = document.createElement("h3");
         titleEl.textContent = name;
@@ -219,28 +222,20 @@
         priceEl.className = "catalog-price";
         priceEl.textContent = price;
 
-        content.appendChild(categoryEl);
         content.appendChild(titleEl);
         content.appendChild(priceEl);
+
         card.appendChild(img);
         card.appendChild(content);
 
-       function openProduct(name, image, price, desc) {
-  document.getElementById("modalImage").src = image;
-  document.getElementById("modalTitle").innerText = name;
-  document.getElementById("modalPrice").innerText = price;
-  document.getElementById("modalDesc").innerText = desc;
+        card.addEventListener("click", function () {
+            openProduct(name, image, price, description);
+        });
 
-  // 👇 THIS IS THE IMPORTANT PART
-  const message = encodeURIComponent(
-    `Hi ZenDoodle Studios! I'm interested in "${name}". Can you tell me more?`
-  );
-
-  document.getElementById("whatsappBtn").href =
-    `https://wa.me/18768124295?text=${message}`;
-
-  document.getElementById("productModal").style.display = "flex";
-}
+        card.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openProduct(name, image, price, description);
             }
         });
 
@@ -248,7 +243,7 @@
     }
 
     async function loadProducts() {
-        if (!API_KEY || API_KEY === "patbbWtq2yJawt46S.6600e6b3981c39a3e697cd1bd793264c59f153421b9a9993fa121cb3c11963dc") {
+        if (!API_KEY || API_KEY === "patnSZqYR4SJEu9db.29c84e7bfd4c27eb00d5ae196b04d5674beaf4a6dd413af8aa2100b2473c15d3") {
             catalogStatus.textContent = "Products are not loading because the Airtable token has not been added yet.";
             return;
         }
@@ -300,7 +295,9 @@
         modalPrice.textContent = price || "";
         modalDesc.textContent = desc || "Contact us for more details about this product.";
 
-        const message = encodeURIComponent(`Hi ZenDoodle Studios! I'm interested in ${name}. Can you share more details?`);
+        const message = encodeURIComponent(
+            `Hi ZenDoodle Studios! I'd like to order or ask about:\n\nProduct: ${name}\nPrice: ${price}\n\nPlease let me know the next steps.`
+        );
         whatsappBtn.href = `https://wa.me/18768124295?text=${message}`;
 
         modal.style.display = "flex";
