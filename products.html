@@ -137,6 +137,12 @@
             </div>
 
         </div>
+        <h2 style="margin-top: 60px;">Shop Ready-Made Products</h2>
+<p style="text-align: center; max-width: 600px; margin: 0 auto 30px;">
+Browse our ready-to-buy items below. Contact us via WhatsApp to order or customize.
+</p>
+
+<div class="product-grid" id="productGrid"></div>
     </section>
 
     <footer>
@@ -148,5 +154,40 @@
         <span class="footer-phone">📞 1 (876) 812 - 4295</span>
         <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">&copy; 2026 ZenDoodle Studios. Kingston, Jamaica.</p>
     </footer>
+    <script>
+const API_KEY = "pat88hCP9L9pvykJD.1cd2cd00daf30cc4c30d61f3ea2c665a2407bdd7833e8427bd47873cbad6a24e";
+const BASE_ID = "app1XdNCXjmox6lTZ";
+const TABLE_NAME = "Products";
+
+const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+
+fetch(url, {
+  headers: {
+    Authorization: `Bearer ${API_KEY}`
+  }
+})
+.then(res => res.json())
+.then(data => {
+  const grid = document.getElementById("productGrid");
+
+  data.records.forEach(record => {
+    const product = record.fields;
+
+    const image = product.Image ? product.Image[0].url : "";
+
+    const card = `
+      <div class="product-card">
+        <img src="${image}" alt="${product["Product Name"]}" />
+        <h3>${product["Product Name"]}</h3>
+        <p class="price">${product.Price || ""}</p>
+        <p class="category">${product.Category || ""}</p>
+        <p class="desc">${product.Description || ""}</p>
+      </div>
+    `;
+
+    grid.innerHTML += card;
+  });
+});
+</script>
 </body>
 </html>
