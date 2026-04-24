@@ -225,12 +225,22 @@
         card.appendChild(img);
         card.appendChild(content);
 
-        const open = () => openProduct(name, image || "assets/logo.jpg", price, description);
-        card.addEventListener("click", open);
-        card.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                open();
+       function openProduct(name, image, price, desc) {
+  document.getElementById("modalImage").src = image;
+  document.getElementById("modalTitle").innerText = name;
+  document.getElementById("modalPrice").innerText = price;
+  document.getElementById("modalDesc").innerText = desc;
+
+  // 👇 THIS IS THE IMPORTANT PART
+  const message = encodeURIComponent(
+    `Hi ZenDoodle Studios! I'm interested in "${name}". Can you tell me more?`
+  );
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/18768124295?text=${message}`;
+
+  document.getElementById("productModal").style.display = "flex";
+}
             }
         });
 
