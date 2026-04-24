@@ -430,12 +430,11 @@ footer {
 
 .hero-main-image {
   display: block !important;
-  width: 100%;
-  max-width: 850px;
+  width: min(100%, 720px);
   height: auto;
   border-radius: 28px;
   box-shadow: var(--shadow);
-  margin: 0 auto 30px;
+  margin: 0 auto 25px;
 }
 
 .hero h1 {
@@ -456,12 +455,14 @@ footer {
   flex-wrap: wrap;
 }
 
-.hero-highlights {
+.hero {
   display: flex !important;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding: 2.5rem 5% 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .hero-highlights span,
