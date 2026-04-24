@@ -170,191 +170,140 @@
         </div>
     </div>
 
-    <script>
+   <script>
+document.addEventListener("DOMContentLoaded", function () {
     const API_KEY = "patnSZqYR4SJEu9db.e39bc1f63da5dab2ad11e221201be0048983a9f7c33b5c968822dab47277058f";
     const BASE_ID = "app1XdNCXjmox6lTZ";
     const TABLE_NAME = "Products";
 
-    <script>
-const productGrid = document.getElementById("productGrid");
-const catalogStatus = document.getElementById("catalogStatus");
+    const productGrid = document.getElementById("productGrid");
+    const catalogStatus = document.getElementById("catalogStatus");
 
-function safeText(value) {
-    return value === undefined || value === null ? "" : String(value);
-}
-
-function getProductImage(product) {
-    if (product.Image && Array.isArray(product.Image) && product.Image.length > 0 && product.Image[0].url) {
-        return product.Image[0].url;
-    }
-    return "";
-}
-
-function createProductCard(product) {
-    const name = safeText(product["Product Name"] || product.Name || "Product");
-    const price = safeText(product.Price);
-    const category = safeText(product.Category);
-    const description = safeText(product.Description);
-    const image = getProductImage(product);
-
-    const card = document.createElement("div");
-    card.className = "catalog-product-card";
-    card.setAttribute("role", "button");
-    card.setAttribute("tabindex", "0");
-    card.setAttribute("aria-label", `View details for ${name}`);
-
-    const img = document.createElement("img");
-    img.src = image || "assets/logo.jpg";
-    img.alt = name;
-
-    const content = document.createElement("div");
-    content.className = "catalog-product-content";
-
-    if (category) {
-        const categoryEl = document.createElement("span");
-        categoryEl.className = "catalog-category";
-        categoryEl.textContent = category;
-        content.appendChild(categoryEl);
+    function safeText(value) {
+        return value === undefined || value === null ? "" : String(value);
     }
 
-    const titleEl = document.createElement("h3");
-    titleEl.textContent = name;
+    function getProductImage(product) {
+        return product.Image?.[0]?.url || "";
+    }
 
-    const priceEl = document.createElement("p");
-    priceEl.className = "catalog-price";
-    priceEl.textContent = price;
+    function createProductCard(product) {
+        const name = safeText(product["Product Name"] || product.Name || "Product");
+        const price = safeText(product.Price);
+        const category = safeText(product.Category || "Other");
+        const description = safeText(product.Description);
+        const image = getProductImage(product);
 
-    content.appendChild(titleEl);
-    content.appendChild(priceEl);
+        const card = document.createElement("div");
+        card.className = "catalog-product-card";
 
-    card.appendChild(img);
-    card.appendChild(content);
+        card.innerHTML = `
+            <img src="${image || "assets/logo.jpg"}" alt="${name}">
+            <div class="catalog-product-content">
+                <span class="catalog-category">${category}</span>
+                <h3>${name}</h3>
+                <p class="catalog-price">${price}</p>
+            </div>
+        `;
 
-    card.addEventListener("click", function () {
-        openProduct(name, image, price, description);
-    });
-
-    card.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
+        card.addEventListener("click", function () {
             openProduct(name, image, price, description);
-        }
-    });
+        });
 
-    return card;
-}
-
-async function loadProducts() {
-    if (!API_KEY) {
-        catalogStatus.textContent = "Products are not loading because the Airtable token has not been added yet.";
-        return;
+        return card;
     }
 
-    const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}?pageSize=100`;
-
-    try {
-        const response = await fetch(airtableUrl, {
-            headers: {
-                Authorization: `Bearer ${API_KEY}`
-            }
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            console.error("Airtable error:", data);
-            catalogStatus.textContent = "Products could not load. Please check your Airtable token, base access, and table name.";
+    async function loadProducts() {
+        if (!API_KEY) {
+            productGrid.innerHTML = "<p>Please add your Airtable token.</p>";
             return;
         }
 
-        productGrid.innerHTML = "";
+        const airtableUrl = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE_NAME)}?pageSize=100`;
 
-        if (!data.records || data.records.length === 0) {
-            productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No products are available yet.</p>';
-            return;
-        }
-
-        const groupedProducts = {};
-
-        data.records.forEach(function (record) {
-            const product = record.fields || {};
-            const category = product.Category || "Other";
-
-            if (!groupedProducts[category]) {
-                groupedProducts[category] = [];
-            }
-
-            groupedProducts[category].push(product);
-        });
-
-        Object.keys(groupedProducts).forEach(function (category) {
-            const section = document.createElement("div");
-            section.className = "category-section";
-            section.style.gridColumn = "1 / -1";
-
-            const title = document.createElement("h2");
-            title.className = "category-title";
-            title.textContent = category;
-
-            const grid = document.createElement("div");
-            grid.className = "product-grid";
-
-            groupedProducts[category].forEach(function (product) {
-                grid.appendChild(createProductCard(product));
+        try {
+            const response = await fetch(airtableUrl, {
+                headers: {
+                    Authorization: `Bearer ${API_KEY}`
+                }
             });
 
-            section.appendChild(title);
-            section.appendChild(grid);
-            productGrid.appendChild(section);
-        });
+            const data = await response.json();
 
-    } catch (error) {
-        console.error("Error loading products:", error);
-        catalogStatus.textContent = "Products could not load. Please refresh the page or check your Airtable setup.";
+            if (!response.ok) {
+                console.error("Airtable error:", data);
+                productGrid.innerHTML = "<p>Products could not load. Check Airtable token, base access, or table name.</p>";
+                return;
+            }
+
+            productGrid.innerHTML = "";
+
+            const groupedProducts = {};
+
+            data.records.forEach(function (record) {
+                const product = record.fields || {};
+                const category = product.Category || "Other";
+
+                if (!groupedProducts[category]) {
+                    groupedProducts[category] = [];
+                }
+
+                groupedProducts[category].push(product);
+            });
+
+            Object.keys(groupedProducts).forEach(function (category) {
+                const section = document.createElement("div");
+                section.className = "category-section";
+                section.style.gridColumn = "1 / -1";
+
+                const title = document.createElement("h2");
+                title.className = "category-title";
+                title.textContent = category;
+
+                const grid = document.createElement("div");
+                grid.className = "product-grid";
+
+                groupedProducts[category].forEach(function (product) {
+                    grid.appendChild(createProductCard(product));
+                });
+
+                section.appendChild(title);
+                section.appendChild(grid);
+                productGrid.appendChild(section);
+            });
+
+        } catch (error) {
+            console.error("Product load error:", error);
+            productGrid.innerHTML = "<p>Products could not load. There is a script error.</p>";
+        }
     }
-}
 
-function openProduct(name, image, price, desc) {
-    const modal = document.getElementById("productModal");
-    const modalImage = document.getElementById("modalImage");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalPrice = document.getElementById("modalPrice");
-    const modalDesc = document.getElementById("modalDesc");
-    const whatsappBtn = document.getElementById("whatsappBtn");
+    window.openProduct = function (name, image, price, desc) {
+        const modal = document.getElementById("productModal");
 
-    modalImage.src = image || "assets/logo.jpg";
-    modalImage.alt = name || "Product image";
-    modalTitle.textContent = name || "Product";
-    modalPrice.textContent = price || "";
-    modalDesc.textContent = desc || "Contact us for more details about this product.";
+        document.getElementById("modalImage").src = image || "assets/logo.jpg";
+        document.getElementById("modalTitle").textContent = name;
+        document.getElementById("modalPrice").textContent = price;
+        document.getElementById("modalDesc").textContent = desc || "Contact us for more details.";
 
-    const message = encodeURIComponent(
-        `Hi ZenDoodle Studios! I'd like to order or ask about:\n\nProduct: ${name}\nPrice: ${price}\n\nPlease let me know the next steps.`
-    );
+        const message = encodeURIComponent(
+            `Hi ZenDoodle Studios! I'd like to order or ask about:\n\nProduct: ${name}\nPrice: ${price}\n\nPlease let me know the next steps.`
+        );
 
-    whatsappBtn.href = `https://wa.me/18768124295?text=${message}`;
+        document.getElementById("whatsappBtn").href =
+            `https://wa.me/18768124295?text=${message}`;
 
-    modal.style.display = "flex";
-    modal.setAttribute("aria-hidden", "false");
-}
+        modal.style.display = "flex";
+    };
 
-function closeModal() {
-    const modal = document.getElementById("productModal");
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-}
+    window.closeModal = function () {
+        document.getElementById("productModal").style.display = "none";
+    };
 
-document.getElementById("productModal").addEventListener("click", function(event) {
-    if (event.target === this) {
-        closeModal();
-    }
+    document.getElementById("productModal").addEventListener("click", function (event) {
+        if (event.target === this) closeModal();
+    });
+
+    loadProducts();
 });
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        closeModal();
-    }
-});
-
-loadProducts();
 </script>
