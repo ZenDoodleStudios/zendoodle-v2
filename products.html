@@ -174,21 +174,31 @@ fetch(url, {
 
   data.records.forEach(record => {
     const product = record.fields;
-
     const image = product.Image ? product.Image[0].url : "";
 
-   const card = `
-  <div class="catalog-product-card" onclick="openProduct('${product["Product Name"]}', '${image}', '${product.Price}', '${product.Description || ""}')">
-    
-    <img src="${image}" alt="${product["Product Name"]}" />
+ const card = document.createElement("div");
+card.className = "catalog-product-card";
 
-    <div class="catalog-product-content">
-      <span class="catalog-category">${product.Category || ""}</span>
-      <h3>${product["Product Name"]}</h3>
-      <p class="catalog-price">${product.Price || ""}</p>
-    </div>
+card.innerHTML = `
+  <img src="${image}" alt="${product["Product Name"] || "Product"}" />
 
+  <div class="catalog-product-content">
+    <span class="catalog-category">${product.Category || ""}</span>
+    <h3>${product["Product Name"] || ""}</h3>
+    <p class="catalog-price">${product.Price || ""}</p>
   </div>
+`;
+
+card.addEventListener("click", () => {
+  openProduct(
+    product["Product Name"] || "",
+    image || "",
+    product.Price || "",
+    product.Description || ""
+  );
+});
+
+grid.appendChild(card);
 `;
     `;
 
