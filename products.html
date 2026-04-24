@@ -176,13 +176,15 @@ fetch(url, {
     const image = product.Image ? product.Image[0].url : "";
 
     const card = `
-      <div class="product-card">
-        <img src="${image}" alt="${product["Product Name"]}" />
-        <h3>${product["Product Name"]}</h3>
-        <p class="price">${product.Price || ""}</p>
-        <p class="category">${product.Category || ""}</p>
-        <p class="desc">${product.Description || ""}</p>
-      </div>
+      <div class="catalog-product-card">
+  <img src="${image}" alt="${product["Product Name"]}" />
+  <div class="catalog-product-content">
+    <span class="catalog-category">${product.Category || ""}</span>
+    <h3>${product["Product Name"]}</h3>
+    <p class="catalog-price">${product.Price || ""}</p>
+    <p class="catalog-desc">${product.Description || ""}</p>
+  </div>
+</div>
     `;
 
     grid.innerHTML += card;
