@@ -345,35 +345,36 @@ footer {
   padding: 20px;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
 .modal-content {
   background: white;
   padding: 25px;
   border-radius: 20px;
-  width: 100%;
-  max-width: 500px;
-
-  /* 👇 THIS IS THE KEY FIX */
-  max-height: 90vh;
-  overflow-y: auto;
-
+  width: 90%;
+  max-width: 700px;
   text-align: center;
   position: relative;
-}
 }
 
 .modal-content img {
   max-width: 100%;
-  height: auto;
+  max-height: 45vh;
   width: auto;
+  height: auto;
   display: block;
   margin: 0 auto 15px;
   border-radius: 12px;
-}
-}
-}
-}
-}
-}
+  object-fit: contain;
 }
 
 .close-btn {
@@ -382,4 +383,11 @@ footer {
   right: 20px;
   font-size: 26px;
   cursor: pointer;
+  background: none;
+  border: none;
+}
+
+#whatsappBtn {
+  margin-top: 15px;
+}
 }
