@@ -368,15 +368,17 @@ footer {
 
 .modal-content img {
   max-width: 100%;
-  max-height: 45vh;
-  width: auto;
   height: auto;
   display: block;
   margin: 0 auto 15px;
   border-radius: 12px;
   object-fit: contain;
 }
-
+@media (min-width: 768px) {
+  .modal-content img {
+    max-height: 60vh;
+  }
+}
 .close-btn {
   position: absolute;
   top: 15px;
