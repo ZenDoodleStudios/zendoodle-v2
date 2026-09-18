@@ -20,7 +20,7 @@
       const age=/Book\s*1\b/.test(product.name)?'Ages 2–3':/Book\s*2\b/.test(product.name)?'Ages 4–5':/Book\s*3\b/.test(product.name)?'Ages 6–8':null;
       if(age)return ['Personalise the Cover','order.html?product=series&age='+encodeURIComponent(age)];
     }
-    return ['Ask About This Product','contact.html?product='+encodeURIComponent(product.name)];
+    return ['Add to Order','order.html?product=ready&item='+encodeURIComponent(product.name)];
   }
   function picture(url,name){
     const img=create('img');img.src=url;img.alt=name;img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>img.remove(),{once:true});return img;
